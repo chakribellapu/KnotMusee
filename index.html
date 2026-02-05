@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNOT MUSEE | Rajamahendravaram</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-image: url('download.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #1c1917;
+        }
+
+        h1, h2, .serif { font-family: 'Playfair Display', serif; }
+
+        nav {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        .product-card-img {
+            width: 100%;
+            aspect-ratio: 1 / 1; 
+            overflow: hidden;
+            border-radius: 1rem;
+            position: relative;
+        }
+
+        .slides-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slides-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .floating-insta {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 10px 25px rgba(220, 39, 67, 0.4);
+            z-index: 5000;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="https://www.instagram.com/knot.musee?igsh=Y2N4enVkbW9vZHNn" target="_blank" class="floating-insta">
+        <i class="fab fa-instagram"></i>
+    </a>
+
+    <nav class="p-6 sticky top-0 z-50 flex justify-between items-center px-8">
+        <div class="hidden md:block w-32"></div>
+        <h1 class="serif text-2xl md:text-3xl font-bold text-stone-900 tracking-widest uppercase">KNOT MUSEE</h1>
+        <a href="https://www.instagram.com/knot.musee?igsh=Y2N4enVkbW9vZHNn" target="_blank" class="text-pink-700 font-bold text-sm flex items-center gap-2">
+            <i class="fab fa-instagram text-xl"></i>
+            <span class="hidden md:inline">@knot.musee</span>
+        </a>
+    </nav>
+
+    <header class="py-16 text-center">
+        <p class="uppercase tracking-[0.4em] text-emerald-900/70 mb-2 font-semibold">Rajamahendravaram</p>
+        <h2 class="text-5xl md:text-6xl serif italic text-stone-900">Handcrafted Collection</h2>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
+            
+            <script>
+                const products = [
+                    { name: "Chick + sunflower combo", price: "400", images: ["imagesimg1.jpeg.jpeg"] },
+                    { name: "Chick", price: "250", images: ["imagesimg2.jpeg.jpeg"] },
+                    { name: "Tulip", price: "300", images: ["imagesimg3.jpeg.jpeg"] },
+                    { name: "Bouquet", price: "1200", images: ["imagesimg4.jpeg.jpeg", "imagesimg5.jpeg.jpeg"] },
+                    { name: "Heart keychains each", price: "150", images: ["imagesimg6.jpeg.jpeg"] },
+                    { name: "Bow + heart", price: "250", images: ["imagesimg7.jpeg.jpeg"] },
+                    { name: "Each Bow", price: "150", images: ["imagesimg8.jpeg.jpeg","imagesimg9.jpeg.jpeg"] },
+                    { name: "Scarf", price: "1200", images: ["imagesimg10.jpeg.jpeg"] },
+                    { name: "Double Heart keychain", price: "150", images: ["imagesimg11.jpeg.jpeg"] }
+                ];
+
+                document.write(products.map((p, index) => `
+                    <div class="w-full max-w-[350px] glass-card p-5 rounded-[2rem] transition-all hover:translate-y-[-5px]">
+                        <div class="product-card-img mb-5 shadow-inner">
+                            <div class="slides-wrapper" id="slide-wrapper-${index}">
+                                ${p.images.map(img => `<img src="${img}" alt="${p.name}">`).join('')}
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start mb-5 px-1">
+                            <div><h3 class="serif text-xl font-bold text-stone-900">${p.name}</h3></div>
+                            <span class="text-emerald-900 font-bold text-xl serif">₹${p.price}</span>
+                        </div>
+                        <a href="https://wa.me/9177661555?text=Hi! I want to order ${p.name}" class="flex items-center justify-center gap-2 w-full bg-stone-900 text-white py-4 rounded-2xl font-semibold hover:bg-emerald-950 transition-colors shadow-lg">
+                           <i class="fab fa-whatsapp"></i> Order Now
+                        </a>
+                    </div>
+                `).join(''));
+
+                products.forEach((p, index) => {
+                    if (p.images.length > 1) {
+                        let currentSlide = 0;
+                        const wrapper = document.getElementById(`slide-wrapper-${index}`);
+                        setInterval(() => {
+                            currentSlide = (currentSlide + 1) % p.images.length;
+                            wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+                        }, 3000); 
+                    }
+                });
+            </script>
+        </div>
+    </main>
+
+    <section class="bg-white/40 backdrop-blur-md py-20 text-center px-6 mt-10 border-t border-white/30">
+        <h3 class="serif text-4xl mb-6 text-stone-900">Find more on Instagram</h3>
+        <p class="text-stone-700 mb-10 max-w-md mx-auto">Follow us for custom orders, new designs, and the stories behind our knots.</p>
+        <a href="https://www.instagram.com/knot.musee?igsh=Y2N4enVkbW9vZHNn" target="_blank" class="inline-flex items-center gap-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white px-12 py-5 rounded-full font-bold text-lg shadow-2xl">
+            <i class="fab fa-instagram text-2xl"></i> Follow @KNOT.MUSEE
+        </a>
+    </section>
+
+    <footer class="py-16 text-center px-6 flex flex-col items-center">
+        <h2 class="text-stone-900 text-2xl font-bold mb-4 tracking-widest uppercase">KNOT MUSEE</h2>
+        <p class="text-xl text-emerald-950 font-mono font-semibold">+91 91776 61555</p>
+        <p class="text-sm text-stone-600 mt-2">Rajamahendravaram, India</p>
+        
+        <div class="mt-12 pt-8 border-t border-stone-900/10 w-full max-w-xs opacity-60">
+            <p class="text-xs tracking-widest uppercase text-stone-800">
+                &copy; 2026 All Rights Reserved
+            </p>
+            <p class="text-[10px] mt-1 font-bold text-stone-900 uppercase">
+                Bellapu Chakravrthy
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
