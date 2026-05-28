@@ -1,343 +1,780 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KNOT MUSEE | Rajamahendravaram</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-image: url('download.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            color: #1c1917;
-        }
-
-        h1,
-        h2,
-        .serif {
-            font-family: 'Playfair Display', serif;
-        }
-
-        nav {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-        }
-
-        .product-card-img {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            overflow: hidden;
-            border-radius: 1rem;
-            position: relative;
-        }
-
-        .slides-wrapper {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .slides-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .floating-insta {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: linear-gradient(
-                45deg,
-                #f09433 0%,
-                #e6683c 25%,
-                #dc2743 50%,
-                #cc2366 75%,
-                #bc1888 100%
-            );
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 10px 25px rgba(220, 39, 67, 0.4);
-            z-index: 5000;
-            transition: all 0.3s ease;
-        }
-
-        .floating-insta:hover {
-            transform: scale(1.1);
-        }
-    </style>
+<meta charset="UTF-8">
+<title>KnotMuse</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-    <!-- Floating Instagram Button -->
-    <a href="https://www.instagram.com/knot.musee?igsh=Y2N4enVkbW9vZHNn"
-       target="_blank"
-       class="floating-insta">
-        <i class="fab fa-instagram"></i>
-    </a>
+<div class="topbar">⪩⪨ FREE SHIPPING ON ORDERS OVER ₹1000 ⪩⪨</div>
 
-    <!-- Navbar -->
-    <nav class="p-6 sticky top-0 z-50 flex justify-between items-center px-8">
-
-        <div class="hidden md:block w-32"></div>
-
-        <h1 class="serif text-2xl md:text-3xl font-bold text-stone-900 tracking-widest uppercase">
-            KNOT MUSEE
-        </h1>
-
-        <a href="https://www.instagram.com/knot.musee?igsh=Y2N4enVkbW9vZHNn"
-           target="_blank"
-           class="text-pink-700 font-bold text-sm flex items-center gap-2">
-
-            <i class="fab fa-instagram text-xl"></i>
-
-            <span class="hidden md:inline">
-                @knot.musee
-            </span>
-
-        </a>
+<header>
+    <div class="logo">KnotMuse</div>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#categories">Shop</a>
+        <a href="#about">About Us</a>
+        <a href="https://www.instagram.com/KNOT.MUSEE" target="_blank" rel="noopener">Blog</a>
+        <a href="#contact">Contact Us</a>
     </nav>
-
-    <!-- Header -->
-    <header class="py-16 text-center">
-
-        <p class="uppercase tracking-[0.4em] text-emerald-900/70 mb-2 font-semibold">
-            Rajamahendravaram
-        </p>
-
-        <h2 class="text-5xl md:text-6xl serif italic text-stone-900">
-            Handcrafted Collection
-        </h2>
-
-    </header>
-
-    <!-- Products -->
-    <main class="max-w-7xl mx-auto px-6 pb-20">
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
-
-            <script>
-
-                const products = [
-
-                    {
-                        name: "Chick + sunflower combo",
-                        price: "400",
-                        images: ["imagesimg1.jpeg.jpeg"]
-                    },
-
-                    {
-                        name: "Chick",
-                        price: "250",
-                        images: ["imagesimg2.jpeg.jpeg"]
-                    },
-
-                    {
-                        name: "Tulip",
-                        price: "300",
-                        images: ["imagesimg3.jpeg.jpeg"]
-                    },
-
-                    {
-                        name: "Bouquet",
-                        price: "1200",
-                        images: [
-                            "imagesimg4.jpeg.jpeg",
-                            "imagesimg5.jpeg.jpeg"
-                        ]
-                    },
-
-                    {
-                        name: "Heart keychains each",
-                        price: "150",
-                        images: ["imagesimg6.jpeg.jpeg"]
-                    },
-
-                    {
-                        name: "Bow + heart",
-                        price: "250",
-                        images: ["imagesimg7.jpeg.jpeg"]
-                    },
-
-                    {
-                        name: "Each Bow",
-                        price: "150",
-                        images: [
-                            "imagesimg8.jpeg.jpeg",
-                            "imagesimg9.jpeg.jpeg"
-                        ]
-                    },
-
-                    {
-                        name: "Scarf",
-                        price: "1200",
-                        images: ["imagesimg10.jpeg.jpeg"]
-                    },
-
-                    {
-                        name: "Double Heart keychain",
-                        price: "150",
-                        images: ["imagesimg11.jpeg.jpeg"]
-                    }
-
-                ];
-
-                document.write(
-
-                    products.map((p, index) => `
-
-                    <div class="w-full max-w-[350px] glass-card p-5 rounded-[2rem] transition-all hover:translate-y-[-5px]">
-
-                        <div class="product-card-img mb-5 shadow-inner">
-
-                            <div class="slides-wrapper" id="slide-wrapper-${index}">
-
-                                ${p.images.map(img =>
-                                    `<img src="${img}" alt="${p.name}">`
-                                ).join('')}
-
-                            </div>
-
-                        </div>
-
-                        <div class="flex justify-between items-start mb-5 px-1">
-
-                            <div>
-                                <h3 class="serif text-xl font-bold text-stone-900">
-                                    ${p.name}
-                                </h3>
-                            </div>
-
-                            <span class="text-emerald-900 font-bold text-xl serif">
-                                ₹${p.price}
-                            </span>
-
-                        </div>
-
-                        <a href="https://wa.me/918858924105?text=Hi! I want to order ${p.name}"
-                           target="_blank"
-                           class="flex items-center justify-center gap-2 w-full bg-stone-900 text-white py-4 rounded-2xl font-semibold hover:bg-emerald-950 transition-colors shadow-lg">
-
-                            <i class="fab fa-whatsapp"></i>
-
-                            Order Now
-
-                        </a>
-
-                    </div>
-
-                `).join('')
-
-                );
-
-                products.forEach((p, index) => {
-
-                    if (p.images.length > 1) {
-
-                        let currentSlide = 0;
-
-                        const wrapper =
-                            document.getElementById(`slide-wrapper-${index}`);
-
-                        setInterval(() => {
-
-                            currentSlide =
-                                (currentSlide + 1) % p.images.length;
-
-                            wrapper.style.transform =
-                                `translateX(-${currentSlide * 100}%)`;
-
-                        }, 3000);
-
-                    }
-
-                });
-
-            </script>
-
-        </div>
-
-    </main>
-
-    <!-- Instagram Section -->
-    <section class="bg-white/40 backdrop-blur-md py-20 text-center px-6 mt-10 border-t border-white/30">
-
-        <h3 class="serif text-4xl mb-6 text-stone-900">
-            Find more on Instagram
-        </h3>
-
-        <p class="text-stone-700 mb-10 max-w-md mx-auto">
-            Follow us for custom orders, new designs, and the stories behind our knots.
-        </p>
-
-        <a href="https://www.instagram.com/knot.musee?igsh=Y2N4enVkbW9vZHNn"
-           target="_blank"
-           class="inline-flex items-center gap-4 bg-gradient-to-r from-purple-600 to-pink-500 text-white px-12 py-5 rounded-full font-bold text-lg shadow-2xl">
-
-            <i class="fab fa-instagram text-2xl"></i>
-
-            Follow @KNOT.MUSEE
-
+    <div class="header-actions">
+        <!-- Cart Icon -->
+        <a href="checkout.html" class="cart-icon-btn" title="Cart">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span id="cart-badge" class="badge">0</span>
         </a>
 
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-16 text-center px-6 flex flex-col items-center">
-
-        <h2 class="text-stone-900 text-2xl font-bold mb-4 tracking-widest uppercase">
-            KNOT MUSEE
-        </h2>
-
-        <p class="text-xl text-emerald-950 font-mono font-semibold">
-            +91 88589 24105
-        </p>
-
-        <p class="text-sm text-stone-600 mt-2">
-            Rajamahendravaram, India
-        </p>
-
-        <div class="mt-12 pt-8 border-t border-stone-900/10 w-full max-w-xs opacity-60">
-
-            <p class="text-xs tracking-widest uppercase text-stone-800">
-                &copy; 2026 All Rights Reserved
-            </p>
-
-            <p class="text-[10px] mt-1 font-bold text-stone-900 uppercase">
-                Bellapu Chakravarthy
-            </p>
-
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown-container">
+            <button class="profile-btn" title="Account">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+            <div class="profile-dropdown-menu">
+                <div class="dropdown-header">Your Account</div>
+                <a href="profile.html" class="dropdown-item">My Profile</a>
+                <a href="orders.html" class="dropdown-item">Orders</a>
+                <a href="saved-address.html" class="dropdown-item">Saved Address</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" id="logout-link" class="dropdown-item logout-item" style="display: none;">Logout</a>
+                <a href="login.html" id="login-link" class="dropdown-item">Login / Sign Up</a>
+            </div>
         </div>
+    </div>
+</header>
 
-    </footer>
+<section class="hero" id="home">
+        <div class="decor decor1">
+        <svg width="100" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#c9a98d" stroke-width="2">
+    <circle cx="60" cy="60" r="10"/>
+    <path d="M60 15 Q70 35 60 55 Q50 35 60 15Z"/>
+    <path d="M60 65 Q70 85 60 105 Q50 85 60 65Z"/>
+    <path d="M15 60 Q35 70 55 60 Q35 50 15 60Z"/>
+    <path d="M65 60 Q85 70 105 60 Q85 50 65 60Z"/>
+  </g>
+</svg>
+      <svg width="1020" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#d8bfa8" stroke-width="2">
+    <line x1="30" y1="5" x2="30" y2="55"/>
+    <line x1="5" y1="30" x2="55" y2="30"/>
+    <line x1="12" y1="12" x2="48" y2="48"/>
+    <line x1="48" y1="12" x2="12" y2="48"/>
+  </g>
+</svg>
+    </div>
+
+    
+       <div class="hero-content">
+        <h1>KnotMuse</h1>
+        <p>❀Hook in hands, daydreams in yarn❀</p>
+        <a class="primary-button" href="#categories">SHOP THE COLLECTION</a>
+    </div>
+
+   
+    
+    <svg class="wave" viewBox="0 0 1440 200">
+        <path fill="#f7efe5" d="M0,96L60,112C120,128,240,160,360,165.3C480,171,600,149,720,128C840,107,960,85,1080,90.7C1200,96,1320,128,1380,144L1440,160L1440,200L0,200Z"></path>
+    </svg>
+
+</section>
+<section class="categories" id="categories">
+    <h2>•°. *࿐Shop by Category࿐ *•°.</h2>
+    <div class="category-grid">
+        <div class="cat">
+            <img src="images/flower.jpg.jpeg.jpeg">
+            <span>Flowers</span>
+            <p>₹2000</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Flowers" data-price="2000">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Flowers" data-price="2000">Buy Now</button>
+        </div>
+        <div class="cat">
+            <img src="images/teddy.jpg.jpeg.jpeg">
+            <span>Plushies</span>
+            <p>₹1800</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Plushies" data-price="1800">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Plushies" data-price="1800">Buy Now</button>
+        </div>
+        <div class="cat">
+            <img src="images/keychain.jpg.jpeg.jpeg">
+            <span>Keychains</span>
+            <p>₹200</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Keychains" data-price="200">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Keychains" data-price="200">Buy Now</button>
+        </div>
+        <div class="cat">
+            <img src="images/knitwear.jpg.jpeg">
+            <span>Knitwear</span>
+            <p>₹1800</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Knitwear" data-price="1800">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Knitwear" data-price="1800">Buy Now</button>
+        </div>
+        <div class="cat">
+            <img src="images/tooth keychain.jpeg">
+            <span>Tooth Keychain Pair</span>
+            <p>₹500</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Tooth Keychain Pair" data-price="500">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Tooth Keychain Pair" data-price="500">Buy Now</button>
+        </div>
+        <div class="cat">
+            <img src="images/star keychain.jpeg">
+            <span>Star Keychain</span>
+            <p>₹180</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Star Keychain" data-price="180">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Star Keychain" data-price="180">Buy Now</button>
+        </div>
+        <div class="cat">
+            <img src="images/Chic with sunflower.jpeg">
+            <span>Chic with Sunflower</span>
+            <p>₹300</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Chic with Sunflower" data-price="300">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Chic with Sunflower" data-price="300">Buy Now</button>
+        </div>
+        <div class="cat">
+            <img src="images/roses bouquet.jpeg">
+            <span>Roses Bouquet/Coaster</span>
+            <p>₹1200</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Roses Bouquet/Coaster" data-price="1200">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Roses Bouquet/Coaster" data-price="1200">Buy Now</button>
+        </div>
+    </div>
+</section>
+
+<section class="arrivals">
+    <h2>New Arrivals</h2>
+    <div class="products">
+        <div class="product">
+            <img src="images/tulip.jpg.jpeg">
+            <h3>Tulip Bouquet keychain</h3>
+            <p>₹300</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Tulip Bouquet keychain" data-price="300">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Tulip Bouquet keychain" data-price="300">Buy Now</button>
+        </div>
+        <div class="product">
+            <img src="images/bunny.jpg.jpeg">
+            <h3>Bunny Plush</h3>
+            <p>₹3500</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Bunny Plush" data-price="3500">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Bunny Plush" data-price="3500">Buy Now</button>
+        </div>
+        <div class="product">
+            <img src="images/rosebag.jpg.jpeg">
+            <h3>Rose Shoulder Bag</h3>
+            <p>₹2100</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Rose Shoulder Bag" data-price="2100">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Rose Shoulder Bag" data-price="2100">Buy Now</button>
+        </div>
+        <div class="product">
+            <img src="images/dog.jpg.jpeg">
+            <h3>Dog Keychain</h3>
+            <p>₹350</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Dog Keychain" data-price="350">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Dog Keychain" data-price="350">Buy Now</button>
+        </div>
+        <div class="product">
+            <img src="images/hanging spiderman.jpeg">
+            <h3>Hanging Spiderman</h3>
+            <p>₹250</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Hanging Spiderman" data-price="250">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Hanging Spiderman" data-price="250">Buy Now</button>
+        </div>
+        <div class="product">
+            <img src="images/butterfly charms.jpeg">
+            <h3>Butterfly Charms</h3>
+            <p>₹150</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Butterfly Charms" data-price="150">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Butterfly Charms" data-price="150">Buy Now</button>
+        </div>
+        <div class="product">
+            <img src="images/pocket penguin.jpeg">
+            <h3>Pocket Penguin</h3>
+            <p>₹500</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Pocket Penguin" data-price="500">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Pocket Penguin" data-price="500">Buy Now</button>
+        </div>
+        <div class="product">
+            <img src="images/sunflower duo.jpeg">
+            <h3>Sunflower Duo</h3>
+            <p>₹400</p>
+            <button class="btn-secondary w-full text-center add-cart-btn" data-name="Sunflower Duo" data-price="400">Add to Cart</button>
+            <button class="btn-primary w-full text-center pay-btn" data-name="Sunflower Duo" data-price="400">Buy Now</button>
+        </div>
+    </div>
+</section>
+
+<section class="contact" id="contact">
+    <div id="about" class="contact-info">
+        <h2>Find more on Instagram</h2>
+        <p>Follow us for custom orders, new designs, and the stories behind our knots.</p>
+        <a class="insta-link" href="https://www.instagram.com/KNOT.MUSEE" target="_blank" rel="noopener">
+            <span class="insta-icon">
+                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path fill="#7a8b63" d="M349.33 69.33H162.67C109.78 69.33 69.33 109.78 69.33 162.67v186.67c0 52.89 40.45 93.34 93.34 93.34h186.67c52.89 0 93.33-40.45 93.33-93.34V162.67c0-52.89-40.44-93.34-93.34-93.34zm61.34 280c0 33.71-27.38 61.09-61.09 61.09H162.67c-33.71 0-61.09-27.38-61.09-61.09V162.67c0-33.71 27.38-61.09 61.09-61.09h186.67c33.71 0 61.09 27.38 61.09 61.09v186.66z"/>
+                    <path fill="#7a8b63" d="M256 164.66c-50.88 0-92.34 41.46-92.34 92.34S205.12 349.34 256 349.34 348.34 307.88 348.34 257 306.88 164.66 256 164.66zm0 152c-33.9 0-61.66-27.76-61.66-61.66S222.1 193.34 256 193.34s61.66 27.76 61.66 61.66S289.9 316.66 256 316.66z"/>
+                    <circle cx="360" cy="151.5" r="23.5" fill="#7a8b63"/>
+                </svg>
+            </span>
+            @KNOT.MUSEE
+        </a>
+        <p class="brand-name">KNOT MUSEE</p>
+        <p>+91 88589 24105</p>
+        <p>Rajamahendravaram, India</p>
+    </div>
+</section>
+
+<footer>
+    Handmade with love · Eco-friendly yarn · Secure payments · India wide shipping
+</footer>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+const STORAGE_KEYS = {
+    currentUser: 'knotmuse_current_user',
+    users: 'knotmuse_users',
+    cart: 'knotmuse_cart',
+    orders: 'knotmuse_orders'
+};
+
+function getJson(key, defaultValue) {
+    try {
+        return JSON.parse(localStorage.getItem(key)) || defaultValue;
+    } catch (error) {
+        return defaultValue;
+    }
+}
+
+function setJson(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+function getCurrentUser() {
+    return getJson(STORAGE_KEYS.currentUser, null);
+}
+
+function setCurrentUser(user) {
+    setJson(STORAGE_KEYS.currentUser, user);
+}
+
+function logoutCurrentUser() {
+    setCurrentUser(null);
+    updateAuthLink();
+    window.location.reload();
+}
+
+function updateAuthLink() {
+    const logoutLink = document.querySelector('#logout-link');
+    const loginLink = document.querySelector('#login-link');
+    const user = getCurrentUser();
+    if (!logoutLink || !loginLink) return;
+    if (user) {
+        logoutLink.style.display = 'block';
+        loginLink.style.display = 'none';
+    } else {
+        logoutLink.style.display = 'none';
+        loginLink.style.display = 'block';
+    }
+}
+
+function getUsers() {
+    return getJson(STORAGE_KEYS.users, []);
+}
+
+function setUsers(users) {
+    setJson(STORAGE_KEYS.users, users);
+}
+
+function getCart() {
+    return getJson(STORAGE_KEYS.cart, []);
+}
+
+function setCart(cart) {
+    setJson(STORAGE_KEYS.cart, cart);
+}
+
+function getOrders() {
+    return getJson(STORAGE_KEYS.orders, []);
+}
+
+function setOrders(orders) {
+    setJson(STORAGE_KEYS.orders, orders);
+}
+
+function updateCartCount() {
+    const cart = getCart();
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const badgeEl = document.querySelector('#cart-badge');
+    if (badgeEl) badgeEl.textContent = count;
+}
+
+function formatCurrency(value) {
+    return '₹' + value;
+}
+
+function renderCart() {
+    const cart = getCart();
+    const itemsEl = document.querySelector('#cart-items');
+    const totalEl = document.querySelector('#cart-total');
+    if (!itemsEl || !totalEl) return;
+
+    if (cart.length === 0) {
+        itemsEl.innerHTML = '<p class="empty-message">Your cart is empty.</p>';
+        totalEl.textContent = formatCurrency(0);
+        return;
+    }
+
+    itemsEl.innerHTML = cart.map(item => {
+        return `
+            <div class="cart-item">
+                ${item.image ? `<img class="cart-item-image" src="${item.image}" alt="${item.name}">` : ''}
+                <div class="cart-item-details">
+                    <strong>${item.name}</strong>
+                    ${item.description ? `<p class="cart-item-description">${item.description}</p>` : ''}
+                    <div class="cart-quantity">
+                        <button class="cart-qty-btn cart-qty-decrease" data-name="${item.name}">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="cart-qty-btn cart-qty-increase" data-name="${item.name}">+</button>
+                    </div>
+                    <div class="cart-item-price">₹${item.price} × ${item.quantity} = <strong>₹${item.price * item.quantity}</strong></div>
+                </div>
+                <button class="btn-secondary remove-cart-item" data-name="${item.name}">Remove</button>
+            </div>
+        `;
+    }).join('');
+
+    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    totalEl.textContent = formatCurrency(total);
+}
+
+function renderOrders() {
+    const ordersEl = document.querySelector('#order-history');
+    if (!ordersEl) return;
+
+    const user = getCurrentUser();
+    if (!user) {
+        ordersEl.innerHTML = '<p>Please login to see your order history.</p>';
+        return;
+    }
+
+    const orders = getOrders().filter(order => order.email === user.email);
+    if (orders.length === 0) {
+        ordersEl.innerHTML = '<p>You have no orders yet.</p>';
+        return;
+    }
+
+    ordersEl.innerHTML = orders.map(order => {
+        const items = order.items.map(item => `${item.name} x${item.quantity}`).join(', ');
+        return `
+            <div class="order-item">
+                <div class="order-info">
+                    <strong>${order.orderId}</strong>
+                    <span>${items}</span>
+                    <span>${order.date}</span>
+                    <span>${order.email}</span>
+                </div>
+                <span class="order-status">${order.status}</span>
+            </div>
+        `;
+    }).join('');
+}
+
+function showMessage(selector, message, success = false) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+    el.textContent = message;
+    el.style.color = success ? '#2f5c2f' : '#a43f3f';
+}
+
+function addItemToCart(itemData) {
+    const cart = getCart();
+    const existing = cart.find(item => item.name === itemData.name);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({
+            name: itemData.name,
+            price: parseInt(itemData.price, 10),
+            quantity: 1,
+            image: itemData.image || '',
+            description: itemData.description || ''
+        });
+    }
+    setCart(cart);
+    updateCartCount();
+    renderCart();
+    showMessage('#checkout-message', `${itemData.name} added to cart. Fill the checkout details below.`, true);
+}
+
+function clearCart() {
+    setCart([]);
+    updateCartCount();
+    renderCart();
+    showMessage('#checkout-message', 'Cart cleared.', true);
+}
+
+function fillCheckoutDetails() {
+    const user = getCurrentUser();
+    if (!user) return;
+    const nameEl = document.querySelector('#shipping-name');
+    const emailEl = document.querySelector('#shipping-email');
+    const phoneEl = document.querySelector('#shipping-phone');
+    if (nameEl) nameEl.value = user.name || '';
+    if (emailEl) emailEl.value = user.email || '';
+    if (phoneEl) phoneEl.value = user.phone || '';
+}
+
+function renderSavedAddresses() {
+    const addressList = document.querySelector('#address-list');
+    if (!addressList) return;
+    const user = getCurrentUser();
+    if (!user || !user.addresses || user.addresses.length === 0) {
+        addressList.innerHTML = '<p>No saved addresses yet. Place an order to save one.</p>';
+        return;
+    }
+    addressList.innerHTML = user.addresses.map((address, index) => `
+        <div class="address-card">
+            <strong>Address ${index + 1}</strong>
+            <p>${address.line}</p>
+            <p>${address.city} - ${address.pincode}</p>
+            <p>${address.phone}</p>
+        </div>
+    `).join('');
+}
+
+function updateAccountUI() {
+    const user = getCurrentUser();
+    const accountMsg = document.querySelector('#account-message');
+    const accountSummary = document.querySelector('#account-summary');
+    const logoutBtn = document.querySelector('#logout-btn');
+    if (!accountMsg || !accountSummary || !logoutBtn) return;
+    if (user) {
+        accountMsg.textContent = `Logged in as ${user.name}. Your saved addresses and orders are shown below.`;
+        accountMsg.style.color = '#2f5c2f';
+        accountSummary.innerHTML = `
+            <p><strong>${user.name}</strong></p>
+            <p>${user.email || ''} ${user.email && user.phone ? '•' : ''} ${user.phone || ''}</p>
+        `;
+        logoutBtn.style.display = 'block';
+        renderSavedAddresses();
+    } else {
+        accountMsg.textContent = 'Sign up or login to save your order history and track purchases.';
+        accountMsg.style.color = '#5a4636';
+        accountSummary.innerHTML = '<p>Please login or sign up to access your saved addresses and orders.</p>';
+        logoutBtn.style.display = 'none';
+        renderSavedAddresses();
+    }
+}
+
+function openCheckoutPanel() {
+    document.querySelector('#cart').scrollIntoView({ behavior: 'smooth' });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartCount();
+    renderCart();
+    renderOrders();
+    updateAccountUI();
+    updateAuthLink();
+    fillCheckoutDetails();
+
+    // Profile dropdown toggle
+    const profileBtn = document.querySelector('.profile-btn');
+    const profileDropdown = document.querySelector('.profile-dropdown-menu');
+    const logoutLink = document.querySelector('#logout-link');
+
+    if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', function() {
+            profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+        });
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (profileDropdown && !e.target.closest('.profile-dropdown-container')) {
+            profileDropdown.style.display = 'none';
+        }
+    });
+
+    // Logout functionality
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            logoutCurrentUser();
+        });
+    }
+});
+
+document.addEventListener('click', function(e) {
+    const addCartBtn = e.target.closest('.add-cart-btn');
+    const payBtn = e.target.closest('.pay-btn');
+    const removeBtn = e.target.closest('.remove-cart-item');
+
+    if (addCartBtn) {
+        const name = addCartBtn.dataset.name;
+        const price = addCartBtn.dataset.price;
+        const productCard = addCartBtn.closest('.product, .cat');
+        const imageEl = productCard ? productCard.querySelector('img') : null;
+        const headingEl = productCard ? productCard.querySelector('h3, span') : null;
+        const item = {
+            name,
+            price,
+            image: imageEl ? imageEl.src : '',
+            description: headingEl ? headingEl.textContent.trim() : ''
+        };
+        addItemToCart(item);
+        return;
+    }
+
+    if (payBtn) {
+        const name = payBtn.dataset.name;
+        const price = payBtn.dataset.price;
+        const productCard = payBtn.closest('.product, .cat');
+        const imageEl = productCard ? productCard.querySelector('img') : null;
+        const headingEl = productCard ? productCard.querySelector('h3, span') : null;
+        const item = {
+            name,
+            price,
+            image: imageEl ? imageEl.src : '',
+            description: headingEl ? headingEl.textContent.trim() : ''
+        };
+        sessionStorage.setItem('knotmuse_buy_now_item', JSON.stringify(item));
+        window.location.href = 'checkout-details.html';
+        return;
+    }
+
+    const decreaseBtn = e.target.closest('.cart-qty-decrease');
+    if (decreaseBtn) {
+        const name = decreaseBtn.dataset.name;
+        let cart = getCart();
+        const item = cart.find(entry => entry.name === name);
+        if (item) {
+            if (item.quantity > 1) {
+                item.quantity -= 1;
+            } else {
+                cart = cart.filter(entry => entry.name !== name);
+            }
+            setCart(cart);
+            updateCartCount();
+            renderCart();
+        }
+        return;
+    }
+
+    const increaseBtn = e.target.closest('.cart-qty-increase');
+    if (increaseBtn) {
+        const name = increaseBtn.dataset.name;
+        const cart = getCart();
+        const item = cart.find(entry => entry.name === name);
+        if (item) {
+            item.quantity += 1;
+            setCart(cart);
+            updateCartCount();
+            renderCart();
+        }
+        return;
+    }
+
+    if (removeBtn) {
+        const name = removeBtn.dataset.name;
+        let cart = getCart();
+        cart = cart.filter(item => item.name !== name);
+        setCart(cart);
+        updateCartCount();
+        renderCart();
+        return;
+    }
+});
+
+const checkoutForm = document.querySelector('#checkout-form');
+if (checkoutForm) {
+    checkoutForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const cart = getCart();
+        if (cart.length === 0) {
+            showMessage('#checkout-message', 'Add at least one product to the cart before checkout.');
+            return;
+        }
+
+        const name = document.querySelector('#shipping-name').value.trim();
+        const email = document.querySelector('#shipping-email').value.trim();
+        const phone = document.querySelector('#shipping-phone').value.trim();
+        const address = document.querySelector('#shipping-address').value.trim();
+        const city = document.querySelector('#shipping-city').value.trim();
+        const pincode = document.querySelector('#shipping-pincode').value.trim();
+
+        if (!name || !email || !phone || !address || !city || !pincode) {
+            showMessage('#checkout-message', 'Please fill in all shipping details before paying.');
+            return;
+        }
+
+        const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const description = cart.map(item => `${item.name} x${item.quantity}`).join(', ');
+
+        const options = {
+            key: 'rzp_live_SraKQOvPwn918J',
+            amount: total * 100,
+            currency: 'INR',
+            name: 'KNOT MUSEE',
+            description: description,
+            prefill: {
+                name: name,
+                email: email,
+                contact: phone
+            },
+            handler: function(response) {
+                const orders = getOrders();
+                const orderId = 'KM' + Date.now();
+                const orderData = {
+                    orderId: orderId,
+                    email: email,
+                    phone: phone,
+                    name: name,
+                    address: address,
+                    city: city,
+                    pincode: pincode,
+                    items: cart,
+                    total: total,
+                    date: new Date().toLocaleString(),
+                    status: 'Confirmed',
+                    paymentId: response.razorpay_payment_id
+                };
+                orders.push(orderData);
+                setOrders(orders);
+                    const currentUser = getCurrentUser();
+                if (currentUser && currentUser.email === email) {
+                    const addressLine = `${address}, ${city}, ${pincode}`;
+                    const savedAddresses = currentUser.addresses || [];
+                    if (!savedAddresses.some(addr => addr.line === addressLine && addr.pincode === pincode)) {
+                        savedAddresses.push({ line: addressLine, city, pincode, phone });
+                        currentUser.addresses = savedAddresses;
+                        setCurrentUser(currentUser);
+                        const allUsers = getUsers();
+                        const updatedUsers = allUsers.map(user => {
+                            if (user.email === currentUser.email || user.phone === currentUser.phone) {
+                                return currentUser;
+                            }
+                            return user;
+                        });
+                        setUsers(updatedUsers);
+                    }
+                    renderOrders();
+                }
+                clearCart();
+                showMessage('#checkout-message', `Payment successful! Payment ID: ${response.razorpay_payment_id}` , true);
+            },
+            theme: {
+                color: '#7c3aed'
+            }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+    });
+}
+
+const showLoginButton = document.querySelector('#show-login');
+const showSignupButton = document.querySelector('#show-signup');
+const loginPanel = document.querySelector('#login-panel');
+const signupPanel = document.querySelector('#signup-panel');
+
+if (showLoginButton && showSignupButton && loginPanel && signupPanel) {
+    showLoginButton.addEventListener('click', function() {
+        showLoginButton.classList.add('active');
+        showSignupButton.classList.remove('active');
+        loginPanel.style.display = 'block';
+        signupPanel.style.display = 'none';
+    });
+
+    showSignupButton.addEventListener('click', function() {
+        showSignupButton.classList.add('active');
+        showLoginButton.classList.remove('active');
+        signupPanel.style.display = 'block';
+        loginPanel.style.display = 'none';
+    });
+}
+
+const signupBtn = document.querySelector('#signup-btn');
+if (signupBtn) {
+    signupBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        const name = document.querySelector('#signup-name').value.trim();
+        const email = document.querySelector('#signup-email').value.trim();
+        const phone = document.querySelector('#signup-phone').value.trim();
+        const password = document.querySelector('#signup-password').value.trim();
+
+        if (!name || !email || !phone || !password) {
+            showMessage('#account-message', 'Please fill in all signup fields.');
+            return;
+        }
+
+        const users = getUsers();
+        const existing = users.find(user => user.email === email || user.phone === phone);
+        if (existing) {
+            showMessage('#account-message', 'An account already exists with this email or phone. Please log in.');
+            return;
+        }
+
+        const newUser = { name, email, phone, password, addresses: [] };
+        users.push(newUser);
+        setUsers(users);
+        setCurrentUser(newUser);
+        updateAccountUI();
+        fillCheckoutDetails();
+        renderOrders();
+        showMessage('#account-message', 'Signup successful. You are now logged in.', true);
+    });
+}
+
+const loginBtn = document.querySelector('#login-btn');
+if (loginBtn) {
+    loginBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        const loginId = document.querySelector('#login-email').value.trim();
+        const password = document.querySelector('#login-password').value.trim();
+        const users = getUsers();
+
+        if (!loginId || !password) {
+            showMessage('#account-message', 'Please enter email/phone and password.');
+            return;
+        }
+
+        const user = users.find(user => (user.email === loginId || user.phone === loginId) && user.password === password);
+        if (!user) {
+            showMessage('#account-message', 'Email, phone or password is incorrect.');
+            return;
+        }
+
+        setCurrentUser(user);
+        updateAccountUI();
+        fillCheckoutDetails();
+        renderOrders();
+        showMessage('#account-message', `Welcome back, ${user.name}!`, true);
+    });
+}
+
+const logoutBtn = document.querySelector('#logout-btn');
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', function() {
+        setCurrentUser(null);
+        updateAccountUI();
+        showMessage('#account-message', 'You have been logged out.');
+    });
+}
+
+const clearCartButton = document.querySelector('#clear-cart');
+if (clearCartButton) {
+    clearCartButton.addEventListener('click', function() {
+        clearCart();
+    });
+}
+</script>
 
 </body>
 </html>
