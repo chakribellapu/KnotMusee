@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - KNOT MUSEE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="topbar">⪩⪨ FREE SHIPPING ON ORDERS OVER ₹1000 ⪩⪨</div>
+
+<header>
+    <div class="logo">KnotMuse</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#categories">Shop</a>
+        <a href="index.html#about">About Us</a>
+        <a href="https://www.instagram.com/KNOT.MUSEE" target="_blank" rel="noopener">Blog</a>
+        <a href="index.html#contact">Contact Us</a>
+    </nav>
+    <div class="header-actions">
+        <!-- Cart Icon -->
+        <a href="checkout.html" class="cart-icon-btn" title="Cart">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span id="cart-badge" class="badge">0</span>
+        </a>
+
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown-container">
+            <button class="profile-btn" title="Account">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+            <div class="profile-dropdown-menu">
+                <div class="dropdown-header">Your Account</div>
+                <a href="profile.html" class="dropdown-item">My Profile</a>
+                <a href="orders.html" class="dropdown-item">Orders</a>
+                <a href="saved-address.html" class="dropdown-item">Saved Address</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" id="logout-link" class="dropdown-item logout-item" style="display: none;">Logout</a>
+                <a href="login.html" id="login-link" class="dropdown-item">Login / Sign Up</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="orders-container">
+    <div class="orders-content">
+        <h1>My Orders</h1>
+        <div id="orders-message" class="message"></div>
+        
+        <div id="orders-list" class="orders-list">
+            <!-- Orders will be loaded here -->
+        </div>
+    </div>
+</section>
+
+<footer>
+    Handmade with love · Eco-friendly yarn · Secure payments · India wide shipping
+</footer>
+
+<style>
+    .orders-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .orders-content h1 {
+        font-family: 'Playfair Display', serif;
+        color: #5d4335;
+        margin-bottom: 30px;
+    }
+
+    .message {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        display: none;
+    }
+
+    .message.show {
+        display: block;
+    }
+
+    .message.info {
+        background: #e3f2fd;
+        color: #1565c0;
+    }
+
+    .orders-list {
+        display: grid;
+        gap: 20px;
+    }
+
+    .order-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #7a8b63;
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .order-id {
+        font-weight: 600;
+        color: #5d4335;
+        font-size: 16px;
+    }
+
+    .order-status {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .order-status.confirmed {
+        background: #e8f5e9;
+        color: #2f5c2f;
+    }
+
+    .order-status.pending {
+        background: #fff3e0;
+        color: #e65100;
+    }
+
+    .order-details {
+        margin-bottom: 15px;
+        line-height: 1.8;
+    }
+
+    .order-details p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .order-details strong {
+        color: #5a4636;
+    }
+
+    .order-items {
+        background: #f9f6f0;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .order-items-title {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #5d4335;
+        font-size: 14px;
+    }
+
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #e7d8c6;
+        font-size: 14px;
+    }
+
+    .order-item:last-child {
+        border-bottom: none;
+    }
+
+    .order-total {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 600;
+        font-size: 16px;
+        color: #5d4335;
+        padding-top: 10px;
+        border-top: 2px solid #e7d8c6;
+    }
+
+    .empty-message {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+        font-size: 16px;
+    }
+
+    .empty-message a {
+        color: #7a8b63;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .empty-message a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<script>
+    const STORAGE_KEYS = {
+        currentUser: 'knotmuse_current_user',
+        cart: 'knotmuse_cart',
+        orders: 'knotmuse_orders'
+    };
+
+    function getJson(key, defaultValue) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) || defaultValue;
+        } catch (error) {
+            return defaultValue;
+        }
+    }
+
+    function getCurrentUser() {
+        return getJson(STORAGE_KEYS.currentUser, null);
+    }
+
+    function setCurrentUser(user) {
+        localStorage.setItem(STORAGE_KEYS.currentUser, JSON.stringify(user));
+    }
+
+    function getCart() {
+        return getJson(STORAGE_KEYS.cart, []);
+    }
+
+    function getOrders() {
+        return getJson(STORAGE_KEYS.orders, []);
+    }
+
+    function updateCartBadge() {
+        const cart = getCart();
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const badge = document.querySelector('#cart-badge');
+        if (badge) badge.textContent = count;
+    }
+
+    function loadOrders() {
+        const user = getCurrentUser();
+        const ordersList = document.querySelector('#orders-list');
+        const ordersMessage = document.querySelector('#orders-message');
+
+        if (!user) {
+            ordersMessage.textContent = 'Please login to view your orders.';
+            ordersMessage.classList.add('show', 'info');
+            ordersList.innerHTML = '<div class="empty-message"><p>You are not logged in.</p><p><a href="login.html">Click here to login</a></p></div>';
+            return;
+        }
+
+        const orders = getOrders().filter(order => order.email === user.email);
+
+        if (orders.length === 0) {
+            ordersList.innerHTML = '<div class="empty-message"><p>You have no orders yet.</p><p><a href="index.html#categories">Start shopping</a></p></div>';
+            return;
+        }
+
+        ordersList.innerHTML = orders.map(order => `
+            <div class="order-card">
+                <div class="order-header">
+                    <div class="order-id">Order #${order.orderId}</div>
+                    <span class="order-status ${order.status === 'Confirmed' ? 'confirmed' : 'pending'}">${order.status}</span>
+                </div>
+                <div class="order-details">
+                    <p><strong>Date:</strong> ${order.date}</p>
+                    <p><strong>Delivery Address:</strong> ${order.address}, ${order.city} - ${order.pincode}</p>
+                    <p><strong>Payment ID:</strong> ${order.paymentId}</p>
+                </div>
+                <div class="order-items">
+                    <div class="order-items-title">Items Ordered:</div>
+                    ${order.items.map(item => `
+                        <div class="order-item">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>₹${item.price * item.quantity}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="order-total">
+                    <span>Total Amount</span>
+                    <span>₹${order.total}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function logoutCurrentUser() {
+        setCurrentUser(null);
+        window.location.href = 'index.html';
+    }
+
+    function updateAuthDropdown() {
+        const logoutLink = document.querySelector('#logout-link');
+        const loginLink = document.querySelector('#login-link');
+        const user = getCurrentUser();
+        
+        if (user) {
+            logoutLink.style.display = 'block';
+            loginLink.style.display = 'none';
+        } else {
+            logoutLink.style.display = 'none';
+            loginLink.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartBadge();
+        loadOrders();
+        updateAuthDropdown();
+
+        // Profile dropdown toggle
+        const profileBtn = document.querySelector('.profile-btn');
+        const profileDropdown = document.querySelector('.profile-dropdown-menu');
+
+        if (profileBtn && profileDropdown) {
+            profileBtn.addEventListener('click', function() {
+                profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (profileDropdown && !e.target.closest('.profile-dropdown-container')) {
+                profileDropdown.style.display = 'none';
+            }
+        });
+
+        // Logout functionality
+        const logoutLink = document.querySelector('#logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                logoutCurrentUser();
+            });
+        }
+    });
+</script>
+</body>
+</html>

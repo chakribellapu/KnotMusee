@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupons - KNOT MUSEE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="topbar">⪩⪨ FREE SHIPPING ON ORDERS OVER ₹1000 ⪩⪨</div>
+
+<header>
+    <div class="logo">KnotMuse</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#categories">Shop</a>
+        <a href="index.html#about">About Us</a>
+        <a href="https://www.instagram.com/KNOT.MUSEE" target="_blank" rel="noopener">Blog</a>
+        <a href="index.html#contact">Contact Us</a>
+    </nav>
+    <div class="header-actions">
+        <!-- Cart Icon -->
+        <a href="checkout.html" class="cart-icon-btn" title="Cart">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span id="cart-badge" class="badge">0</span>
+        </a>
+
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown-container">
+            <button class="profile-btn" title="Account">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+            <div class="profile-dropdown-menu">
+                <div class="dropdown-header">Your Account</div>
+                <a href="profile.html" class="dropdown-item">My Profile</a>
+                <a href="orders.html" class="dropdown-item">Orders</a>
+                <a href="coupons.html" class="dropdown-item">Coupons</a>
+                <a href="saved-address.html" class="dropdown-item">Saved Address</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" id="logout-link" class="dropdown-item logout-item" style="display: none;">Logout</a>
+                <a href="login.html" id="login-link" class="dropdown-item">Login / Sign Up</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="coupons-container">
+    <div class="coupons-content">
+        <h1>Available Coupons</h1>
+        <div id="coupons-message" class="message"></div>
+        
+        <div id="coupons-list" class="coupons-list">
+            <!-- Coupons will be loaded here -->
+        </div>
+    </div>
+</section>
+
+<footer>
+    Handmade with love · Eco-friendly yarn · Secure payments · India wide shipping
+</footer>
+
+<style>
+    .coupons-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .coupons-content h1 {
+        font-family: 'Playfair Display', serif;
+        color: #5d4335;
+        margin-bottom: 30px;
+    }
+
+    .message {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        display: none;
+    }
+
+    .message.show {
+        display: block;
+    }
+
+    .message.info {
+        background: #e3f2fd;
+        color: #1565c0;
+    }
+
+    .coupons-list {
+        display: grid;
+        gap: 20px;
+    }
+
+    .coupon-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        border-left: 5px solid #7a8b63;
+    }
+
+    .coupon-code-section {
+        background: linear-gradient(135deg, #7a8b63 0%, #9aab83 100%);
+        color: white;
+        padding: 20px;
+        min-width: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .coupon-code {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+    }
+
+    .coupon-copy-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid white;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: 0.3s;
+    }
+
+    .coupon-copy-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .coupon-details {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .coupon-info {
+        margin-bottom: 15px;
+    }
+
+    .coupon-title {
+        font-weight: 600;
+        font-size: 16px;
+        color: #5d4335;
+        margin-bottom: 8px;
+    }
+
+    .coupon-description {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .coupon-terms {
+        font-size: 12px;
+        color: #999;
+        margin-top: 10px;
+    }
+
+    .empty-message {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+        font-size: 16px;
+    }
+
+    @media (max-width: 600px) {
+        .coupon-card {
+            flex-direction: column;
+        }
+
+        .coupon-code-section {
+            min-width: auto;
+            padding: 15px;
+        }
+
+        .coupon-code {
+            font-size: 20px;
+        }
+    }
+</style>
+
+<script>
+    const STORAGE_KEYS = {
+        currentUser: 'knotmuse_current_user',
+        cart: 'knotmuse_cart'
+    };
+
+    const AVAILABLE_COUPONS = [
+        {
+            code: 'WELCOME20',
+            title: '20% Off on First Order',
+            description: 'Get 20% discount on your first purchase. Apply this coupon at checkout.',
+            minOrder: 500,
+            discount: 20,
+            expiry: 'December 31, 2026'
+        },
+        {
+            code: 'SUMMER15',
+            title: '15% Off Summer Collection',
+            description: 'Enjoy 15% off on all items. Valid on orders above ₹1000.',
+            minOrder: 1000,
+            discount: 15,
+            expiry: 'June 30, 2026'
+        },
+        {
+            code: 'SHIP100',
+            title: 'Free Shipping on ₹100+',
+            description: 'Get free shipping on all orders above ₹100. No minimum purchase required.',
+            minOrder: 100,
+            discount: 'Free Shipping',
+            expiry: 'December 31, 2026'
+        },
+        {
+            code: 'HANDMADE25',
+            title: '25% Off Handmade Collection',
+            description: 'Special discount of 25% on our exclusive handmade collection.',
+            minOrder: 800,
+            discount: 25,
+            expiry: 'August 31, 2026'
+        },
+        {
+            code: 'REFER10',
+            title: 'Refer & Get 10% Off',
+            description: 'Refer a friend and get 10% discount on next purchase. Both get discount!',
+            minOrder: 500,
+            discount: 10,
+            expiry: 'December 31, 2026'
+        }
+    ];
+
+    function getJson(key, defaultValue) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) || defaultValue;
+        } catch (error) {
+            return defaultValue;
+        }
+    }
+
+    function getCurrentUser() {
+        return getJson(STORAGE_KEYS.currentUser, null);
+    }
+
+    function setCurrentUser(user) {
+        localStorage.setItem(STORAGE_KEYS.currentUser, JSON.stringify(user));
+    }
+
+    function getCart() {
+        return getJson(STORAGE_KEYS.cart, []);
+    }
+
+    function updateCartBadge() {
+        const cart = getCart();
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const badge = document.querySelector('#cart-badge');
+        if (badge) badge.textContent = count;
+    }
+
+    function loadCoupons() {
+        const couponsList = document.querySelector('#coupons-list');
+        
+        couponsList.innerHTML = AVAILABLE_COUPONS.map(coupon => `
+            <div class="coupon-card">
+                <div class="coupon-code-section">
+                    <div class="coupon-code">${coupon.code}</div>
+                    <button class="coupon-copy-btn" onclick="copyCouponCode('${coupon.code}')">COPY CODE</button>
+                </div>
+                <div class="coupon-details">
+                    <div class="coupon-info">
+                        <div class="coupon-title">${coupon.title}</div>
+                        <div class="coupon-description">${coupon.description}</div>
+                        <div class="coupon-terms">
+                            <strong>Min Order:</strong> ₹${coupon.minOrder} | 
+                            <strong>Valid Till:</strong> ${coupon.expiry}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function copyCouponCode(code) {
+        navigator.clipboard.writeText(code).then(() => {
+            alert('Coupon code "' + code + '" copied to clipboard!');
+        }).catch(() => {
+            alert('Failed to copy. Please try again.');
+        });
+    }
+
+    function logoutCurrentUser() {
+        setCurrentUser(null);
+        window.location.href = 'index.html';
+    }
+
+    function updateAuthDropdown() {
+        const logoutLink = document.querySelector('#logout-link');
+        const loginLink = document.querySelector('#login-link');
+        const user = getCurrentUser();
+        
+        if (user) {
+            logoutLink.style.display = 'block';
+            loginLink.style.display = 'none';
+        } else {
+            logoutLink.style.display = 'none';
+            loginLink.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartBadge();
+        loadCoupons();
+        updateAuthDropdown();
+
+        // Profile dropdown toggle
+        const profileBtn = document.querySelector('.profile-btn');
+        const profileDropdown = document.querySelector('.profile-dropdown-menu');
+
+        if (profileBtn && profileDropdown) {
+            profileBtn.addEventListener('click', function() {
+                profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (profileDropdown && !e.target.closest('.profile-dropdown-container')) {
+                profileDropdown.style.display = 'none';
+            }
+        });
+
+        // Logout functionality
+        const logoutLink = document.querySelector('#logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                logoutCurrentUser();
+            });
+        }
+    });
+</script>
+</body>
+</html>

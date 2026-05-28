@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - KNOT MUSEE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="topbar">⪩⪨ FREE SHIPPING ON ORDERS OVER ₹1000 ⪩⪨</div>
+
+<header>
+    <div class="logo">KnotMuse</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#categories">Shop</a>
+        <a href="index.html#about">About Us</a>
+        <a href="https://www.instagram.com/KNOT.MUSEE" target="_blank" rel="noopener">Blog</a>
+        <a href="index.html#contact">Contact Us</a>
+    </nav>
+    <div class="header-actions">
+        <!-- Cart Icon -->
+        <a href="checkout.html" class="cart-icon-btn" title="Cart">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="9" cy="21" r="1"/>
+                <circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span id="cart-badge" class="badge">0</span>
+        </a>
+
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown-container">
+            <button class="profile-btn" title="Account">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+            <div class="profile-dropdown-menu">
+                <div class="dropdown-header">Your Account</div>
+                <a href="profile.html" class="dropdown-item">My Profile</a>
+                <a href="orders.html" class="dropdown-item">Orders</a>
+                <a href="saved-address.html" class="dropdown-item">Saved Address</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" id="logout-link" class="dropdown-item logout-item" style="display: none;">Logout</a>
+                <a href="login.html" id="login-link" class="dropdown-item">Login / Sign Up</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="profile-container">
+    <div class="profile-content">
+        <h1>My Profile</h1>
+        <div id="profile-message" class="message"></div>
+        
+        <div class="profile-tabs">
+            <button id="personal-tab" class="tab-btn active">Personal Info</button>
+            <button id="address-tab" class="tab-btn">Manage Address</button>
+        </div>
+
+        <div id="personal-panel">
+            <div class="profile-card">
+                <div id="profile-info" class="profile-info">
+                    <!-- User profile info will be loaded here -->
+                </div>
+                <button id="edit-profile-btn" class="btn-primary">Edit Profile</button>
+            </div>
+
+            <div id="edit-profile-form" class="edit-form" style="display: none;">
+                <h3>Edit Profile</h3>
+                <form id="profile-update-form">
+                    <div class="form-group">
+                        <label for="profile-name">Full Name</label>
+                        <input id="profile-name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-gender">Gender</label>
+                        <select id="profile-gender" class="form-control">
+                            <option value="">Select gender</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Non-binary">Non-binary</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-email">Email</label>
+                        <input id="profile-email" type="email" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-phone">Phone</label>
+                        <input id="profile-phone" type="tel" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-password">Password</label>
+                        <input id="profile-password" type="password" class="form-control" placeholder="Leave blank to keep current">
+                    </div>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                    <button type="button" id="cancel-edit-btn" class="btn-secondary">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="address-panel" class="addresses-panel" style="display:none;">
+            <div class="address-toolbar">
+                <button id="show-address-form-btn" class="btn-primary">Add New Address</button>
+            </div>
+            <div id="addresses-list" class="addresses-list">
+                <!-- Addresses will be loaded here -->
+            </div>
+            <div id="address-form" class="edit-form" style="display:none;">
+                <h3 id="address-form-title">Add New Address</h3>
+                <form id="address-update-form">
+                    <div class="form-group">
+                        <label for="address-label">Address Label</label>
+                        <input id="address-label" type="text" class="form-control" placeholder="Home, Work, etc." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-line">Street Address</label>
+                        <input id="address-line" type="text" class="form-control" placeholder="123, Street name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-city">City</label>
+                        <input id="address-city" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-state">State</label>
+                        <input id="address-state" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-zip">Pincode / ZIP</label>
+                        <input id="address-zip" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-phone">Phone</label>
+                        <input id="address-phone" type="tel" class="form-control" placeholder="9876543210" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Save Address</button>
+                    <button type="button" id="cancel-address-btn" class="btn-secondary">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    Handmade with love · Eco-friendly yarn · Secure payments · India wide shipping
+</footer>
+
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    .profile-content h1 {
+        font-family: 'Playfair Display', serif;
+        color: #5d4335;
+        margin-bottom: 30px;
+    }
+
+    .message {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        display: none;
+    }
+
+    .message.show {
+        display: block;
+    }
+
+    .message.success {
+        background: #e8f5e9;
+        color: #2f5c2f;
+    }
+
+    .message.error {
+        background: #ffebee;
+        color: #a43f3f;
+    }
+
+    .profile-card {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .profile-info {
+        margin-bottom: 20px;
+    }
+
+    .profile-info p {
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+    .profile-info strong {
+        color: #5d4335;
+    }
+
+    .profile-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+    }
+
+    .tab-btn {
+        background: #f0e8e0;
+        border: 1px solid #e7d8c6;
+        color: #5a4636;
+        padding: 12px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: 600;
+    }
+
+    .tab-btn.active {
+        background: #7a8b63;
+        color: white;
+        border-color: #7a8b63;
+    }
+
+    .addresses-panel {
+        margin-top: 10px;
+    }
+
+    .address-toolbar {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .addresses-list {
+        display: grid;
+        gap: 20px;
+    }
+
+    .address-card {
+        background: white;
+        padding: 22px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e7d8c6;
+        position: relative;
+    }
+
+    .address-card h4 {
+        margin-bottom: 10px;
+        color: #5d4335;
+    }
+
+    .address-card p {
+        margin: 8px 0;
+        color: #5a4636;
+        line-height: 1.5;
+    }
+
+    .address-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+    }
+
+    .address-btn {
+        flex: 1;
+        padding: 10px 14px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .address-btn-primary {
+        background: #7a8b63;
+        color: white;
+    }
+
+    .address-btn-primary:hover {
+        background: #687853;
+    }
+
+    .address-btn-secondary {
+        background: #e7d8c6;
+        color: #5a4636;
+    }
+
+    .empty-address {
+        padding: 40px 20px;
+        background: white;
+        border-radius: 12px;
+        border: 1px dashed #d9cab4;
+        text-align: center;
+        color: #7a6e58;
+    }
+
+    .empty-address a {
+        color: #7a8b63;
+        text-decoration: none;
+    }
+
+    .edit-form {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-form h3 {
+        margin-bottom: 20px;
+        color: #5d4335;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #5a4636;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #e7d8c6;
+        border-radius: 6px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #7a8b63;
+        box-shadow: 0 0 0 3px rgba(122, 139, 99, 0.1);
+    }
+
+    .form-control:disabled {
+        background: #f5f5f5;
+        color: #999;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: 0.3s;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+
+    .btn-primary {
+        background: #7a8b63;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #687853;
+    }
+
+    .btn-secondary {
+        background: #e7d8c6;
+        color: #5a4636;
+    }
+
+    .btn-secondary:hover {
+        background: #dcc9b5;
+    }
+</style>
+
+<script>
+    const STORAGE_KEYS = {
+        currentUser: 'knotmuse_current_user',
+        users: 'knotmuse_users',
+        cart: 'knotmuse_cart',
+    };
+
+    function getJson(key, defaultValue) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) || defaultValue;
+        } catch (error) {
+            return defaultValue;
+        }
+    }
+
+    function setJson(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function getCurrentUser() {
+        return getJson(STORAGE_KEYS.currentUser, null);
+    }
+
+    function setCurrentUser(user) {
+        setJson(STORAGE_KEYS.currentUser, user);
+    }
+
+    function getUsers() {
+        return getJson(STORAGE_KEYS.users, []);
+    }
+
+    function setUsers(users) {
+        setJson(STORAGE_KEYS.users, users);
+    }
+
+    function getCart() {
+        return getJson(STORAGE_KEYS.cart, []);
+    }
+
+    function updateCartBadge() {
+        const cart = getCart();
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const badge = document.querySelector('#cart-badge');
+        if (badge) badge.textContent = count;
+    }
+
+    function saveCurrentUser(user) {
+        setCurrentUser(user);
+        const users = getUsers();
+        const updatedUsers = users.map(u => u.email === user.email ? user : u);
+        setUsers(updatedUsers);
+    }
+
+    function showMessage(message, success) {
+        const msg = document.querySelector('#profile-message');
+        if (!msg) return;
+        msg.textContent = message;
+        msg.classList.remove('error', 'success');
+        msg.classList.add('show', success ? 'success' : 'error');
+        setTimeout(() => {
+            msg.classList.remove('show');
+        }, 3000);
+    }
+
+    function renderPersonalInfo() {
+        const user = getCurrentUser();
+        const profileInfo = document.querySelector('#profile-info');
+        const editProfileBtn = document.querySelector('#edit-profile-btn');
+
+        if (!user) {
+            profileInfo.innerHTML = '<p><a href="login.html">Please login to view your profile.</a></p>';
+            if (editProfileBtn) editProfileBtn.style.display = 'none';
+            return;
+        }
+
+        user.gender = user.gender || '';
+        user.addresses = user.addresses || [];
+        profileInfo.innerHTML = `
+            <p><strong>Name:</strong> ${user.name}</p>
+            <p><strong>Gender:</strong> ${user.gender || 'Not specified'}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
+            <p><strong>Phone:</strong> ${user.phone || 'Not provided'}</p>
+            <p><strong>Member Since:</strong> ${new Date().toLocaleDateString()}</p>
+        `;
+        if (editProfileBtn) editProfileBtn.style.display = 'inline-block';
+    }
+
+    function renderAddresses() {
+        const user = getCurrentUser();
+        const list = document.querySelector('#addresses-list');
+
+        if (!user) {
+            list.innerHTML = '<div class="empty-address">Please <a href="login.html">login</a> to manage addresses.</div>';
+            return;
+        }
+
+        const addresses = user.addresses || [];
+        if (!addresses.length) {
+            list.innerHTML = '<div class="empty-address">No saved addresses yet. Click "Add New Address" to save one.</div>';
+            return;
+        }
+
+        list.innerHTML = addresses.map((address, index) => `
+            <div class="address-card" data-address-index="${index}">
+                <h4>${address.label}</h4>
+                <p>${address.line}</p>
+                <p>${address.city}, ${address.state} - ${address.zip}</p>
+                <p><strong>Phone:</strong> ${address.phone}</p>
+                <div class="address-actions">
+                    <button type="button" class="address-btn address-btn-primary edit-address-btn" data-index="${index}">Edit</button>
+                    <button type="button" class="address-btn address-btn-secondary delete-address-btn" data-index="${index}">Delete</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function toggleTab(tab) {
+        const personalTab = document.querySelector('#personal-tab');
+        const addressTab = document.querySelector('#address-tab');
+        const personalPanel = document.querySelector('#personal-panel');
+        const addressPanel = document.querySelector('#address-panel');
+
+        if (!personalTab || !addressTab || !personalPanel || !addressPanel) return;
+
+        if (tab === 'personal') {
+            personalTab.classList.add('active');
+            addressTab.classList.remove('active');
+            personalPanel.style.display = 'block';
+            addressPanel.style.display = 'none';
+        } else {
+            addressTab.classList.add('active');
+            personalTab.classList.remove('active');
+            personalPanel.style.display = 'none';
+            addressPanel.style.display = 'block';
+            renderAddresses();
+        }
+    }
+
+    function openAddressForm(addressIndex = null) {
+        const formContainer = document.querySelector('#address-form');
+        const title = document.querySelector('#address-form-title');
+        const label = document.querySelector('#address-label');
+        const line = document.querySelector('#address-line');
+        const city = document.querySelector('#address-city');
+        const state = document.querySelector('#address-state');
+        const zip = document.querySelector('#address-zip');
+        const phone = document.querySelector('#address-phone');
+
+        const user = getCurrentUser();
+        if (!user) {
+            showMessage('Login first to manage addresses.', false);
+            return;
+        }
+
+        if (addressIndex !== null && user.addresses && user.addresses[addressIndex]) {
+            const address = user.addresses[addressIndex];
+            title.textContent = 'Edit Address';
+            label.value = address.label;
+            line.value = address.line;
+            city.value = address.city;
+            state.value = address.state;
+            zip.value = address.zip;
+            phone.value = address.phone;
+            formContainer.dataset.editIndex = addressIndex;
+        } else {
+            title.textContent = 'Add New Address';
+            label.value = '';
+            line.value = '';
+            city.value = '';
+            state.value = '';
+            zip.value = '';
+            phone.value = user.phone || '';
+            delete formContainer.dataset.editIndex;
+        }
+
+        formContainer.style.display = 'block';
+    }
+
+    function closeAddressForm() {
+        const formContainer = document.querySelector('#address-form');
+        if (formContainer) {
+            formContainer.style.display = 'none';
+            delete formContainer.dataset.editIndex;
+        }
+    }
+
+    function logoutCurrentUser() {
+        setCurrentUser(null);
+        window.location.href = 'index.html';
+    }
+
+    function updateAuthDropdown() {
+        const logoutLink = document.querySelector('#logout-link');
+        const loginLink = document.querySelector('#login-link');
+        const user = getCurrentUser();
+        
+        if (user) {
+            logoutLink.style.display = 'block';
+            loginLink.style.display = 'none';
+        } else {
+            logoutLink.style.display = 'none';
+            loginLink.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartBadge();
+        renderPersonalInfo();
+        updateAuthDropdown();
+        toggleTab('personal');
+
+        const personalTab = document.querySelector('#personal-tab');
+        const addressTab = document.querySelector('#address-tab');
+
+        if (personalTab) {
+            personalTab.addEventListener('click', function() {
+                toggleTab('personal');
+            });
+        }
+
+        if (addressTab) {
+            addressTab.addEventListener('click', function() {
+                toggleTab('address');
+            });
+        }
+
+        // Profile dropdown toggle
+        const profileBtn = document.querySelector('.profile-btn');
+        const profileDropdown = document.querySelector('.profile-dropdown-menu');
+
+        if (profileBtn && profileDropdown) {
+            profileBtn.addEventListener('click', function() {
+                profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (profileDropdown && !e.target.closest('.profile-dropdown-container')) {
+                profileDropdown.style.display = 'none';
+            }
+        });
+
+        // Logout functionality
+        const logoutLink = document.querySelector('#logout-link');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                logoutCurrentUser();
+            });
+        }
+
+        // Edit profile form
+        const editProfileBtn = document.querySelector('#edit-profile-btn');
+        const editForm = document.querySelector('#edit-profile-form');
+        const cancelEditBtn = document.querySelector('#cancel-edit-btn');
+        const profileUpdateForm = document.querySelector('#profile-update-form');
+
+        if (editProfileBtn) {
+            editProfileBtn.addEventListener('click', function() {
+                const user = getCurrentUser();
+                if (user) {
+                    document.querySelector('#profile-name').value = user.name;
+                    document.querySelector('#profile-gender').value = user.gender || '';
+                    document.querySelector('#profile-email').value = user.email;
+                    document.querySelector('#profile-phone').value = user.phone || '';
+                    editForm.style.display = 'block';
+                    editProfileBtn.style.display = 'none';
+                }
+            });
+        }
+
+        if (cancelEditBtn) {
+            cancelEditBtn.addEventListener('click', function() {
+                editForm.style.display = 'none';
+                editProfileBtn.style.display = 'block';
+            });
+        }
+
+        if (profileUpdateForm) {
+            profileUpdateForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const user = getCurrentUser();
+                if (!user) return;
+
+                const name = document.querySelector('#profile-name').value.trim();
+                const gender = document.querySelector('#profile-gender').value;
+                const phone = document.querySelector('#profile-phone').value.trim();
+                const password = document.querySelector('#profile-password').value.trim();
+
+                if (!name || !phone) {
+                    showMessage('Please fill all fields', false);
+                    return;
+                }
+
+                user.name = name;
+                user.gender = gender;
+                user.phone = phone;
+                if (password) user.password = password;
+                user.addresses = user.addresses || [];
+
+                saveCurrentUser(user);
+
+                showMessage('Profile updated successfully!', true);
+                editForm.style.display = 'none';
+                editProfileBtn.style.display = 'block';
+                renderPersonalInfo();
+            });
+        }
+
+        const addressForm = document.querySelector('#address-update-form');
+        const showAddressFormBtn = document.querySelector('#show-address-form-btn');
+        const cancelAddressBtn = document.querySelector('#cancel-address-btn');
+
+        if (showAddressFormBtn) {
+            showAddressFormBtn.addEventListener('click', function() {
+                toggleTab('address');
+                openAddressForm();
+            });
+        }
+
+        if (cancelAddressBtn) {
+            cancelAddressBtn.addEventListener('click', function() {
+                closeAddressForm();
+            });
+        }
+
+        if (addressForm) {
+            addressForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const user = getCurrentUser();
+                if (!user) return;
+
+                const label = document.querySelector('#address-label').value.trim();
+                const line = document.querySelector('#address-line').value.trim();
+                const city = document.querySelector('#address-city').value.trim();
+                const state = document.querySelector('#address-state').value.trim();
+                const zip = document.querySelector('#address-zip').value.trim();
+                const phone = document.querySelector('#address-phone').value.trim();
+                const formContainer = document.querySelector('#address-form');
+
+                if (!label || !line || !city || !state || !zip || !phone) {
+                    showMessage('Please fill all address fields', false);
+                    return;
+                }
+
+                user.addresses = user.addresses || [];
+                const addressData = { label, line, city, state, zip, phone };
+
+                if (formContainer.dataset.editIndex !== undefined) {
+                    const index = Number(formContainer.dataset.editIndex);
+                    user.addresses[index] = addressData;
+                    showMessage('Address updated successfully!', true);
+                } else {
+                    user.addresses.push(addressData);
+                    showMessage('Address added successfully!', true);
+                }
+
+                saveCurrentUser(user);
+                renderAddresses();
+                closeAddressForm();
+            });
+        }
+
+        document.body.addEventListener('click', function(event) {
+            if (event.target.matches('.edit-address-btn')) {
+                const index = Number(event.target.dataset.index);
+                openAddressForm(index);
+            }
+            if (event.target.matches('.delete-address-btn')) {
+                const user = getCurrentUser();
+                const index = Number(event.target.dataset.index);
+                if (!user || !user.addresses) return;
+                user.addresses.splice(index, 1);
+                saveCurrentUser(user);
+                renderAddresses();
+                showMessage('Address deleted.', true);
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KnotMuse Login</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="topbar">⪩⪨ FREE SHIPPING ON ORDERS OVER ₹1000 ⪩⪨</div>
+
+<header>
+    <div class="logo">KnotMuse</div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#categories">Shop</a>
+        <a id="auth-link" class="auth-button" href="login.html">Login / Sign Up</a>
+        <a href="index.html#about">About Us</a>
+        <a href="https://www.instagram.com/KNOT.MUSEE" target="_blank" rel="noopener">Blog</a>
+        <a href="index.html#contact">Contact Us</a>
+    </nav>
+</header>
+
+<section class="hero" style="padding:60px 30px;">
+    <div class="hero-content">
+        <h1>Customer Login</h1>
+        <p>Sign in or create an account with email or phone number.</p>
+        <p class="help-text">Your profile, saved addresses and orders are available after login.</p>
+    </div>
+</section>
+
+<section class="account-section">
+    <div class="account-grid" style="grid-template-columns:1fr; max-width:600px; margin:0 auto;">
+        <div id="auth-form-box" class="account-box">
+            <div class="account-tabs">
+                <button id="show-login" class="tab-button active">Login</button>
+                <button id="show-signup" class="tab-button">Sign Up</button>
+            </div>
+            <div id="login-panel">
+                <div class="form-group">
+                    <label for="login-email">Email or Phone</label>
+                    <input id="login-email" type="text" class="form-control" placeholder="email@example.com or 9876543210">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input id="login-password" type="password" class="form-control">
+                </div>
+                <button id="login-btn" class="btn-primary w-full">Login</button>
+                <div style="text-align:right; margin-top:12px;">
+                    <a id="forgot-password-link" class="forgot-link" href="#">Forgot password?</a>
+                </div>
+            </div>
+            <div id="reset-request-panel" style="display:none; margin-top:16px;">
+                <div class="form-group">
+                    <label for="reset-email">Registered Email or Phone</label>
+                    <input id="reset-email" type="text" class="form-control" placeholder="email@example.com or 9876543210">
+                </div>
+                <button id="request-reset-btn" class="btn-secondary w-full">Send Reset Link</button>
+                <button id="cancel-reset-request" class="btn-link" style="margin-top:10px;">Back to Login</button>
+                <div id="reset-link-box" style="display:none; margin-top:14px; background:#f7f0e8; padding:12px; border-radius:16px; font-size:14px;">
+                    Reset link for demo: <a id="reset-link-url" href="#">Click here to open reset form</a>
+                </div>
+            </div>
+            <div id="reset-password-panel" style="display:none; margin-top:16px;">
+                <div class="form-group">
+                    <label for="new-password">New Password</label>
+                    <input id="new-password" type="password" class="form-control" placeholder="Create a new password">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input id="confirm-password" type="password" class="form-control" placeholder="Confirm new password">
+                </div>
+                <button id="reset-password-btn" class="btn-primary w-full">Reset Password</button>
+                <button id="cancel-reset" class="btn-link" style="margin-top:10px;">Back to Login</button>
+            </div>
+            <div id="signup-panel" style="display:none;">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input id="signup-name" type="text" class="form-control" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input id="signup-email" type="email" class="form-control" placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="signup-phone">Phone</label>
+                    <input id="signup-phone" type="tel" class="form-control" placeholder="9876543210">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input id="signup-password" type="password" class="form-control" placeholder="Create a password">
+                </div>
+                <button id="signup-btn" class="btn-primary w-full">Sign Up</button>
+            </div>
+            <div id="account-message" class="checkout-message"></div>
+            <p class="help-text">Login with email or phone number, and use the signup tab to create a new account.</p>
+            <a href="index.html" class="cat-button" style="margin-top:20px;">Back to Store</a>
+        </div>
+        <div id="account-details" class="account-box" style="display:none;">
+            <h3>Account Overview</h3>
+            <div id="account-summary" class="account-summary"></div>
+            <h3>Saved Addresses</h3>
+            <div id="address-list" class="address-list"></div>
+            <h3>Order History</h3>
+            <div id="order-history" class="order-history"></div>
+            <button id="logout-btn" class="btn-secondary w-full" style="display:none; margin-top:10px;">Logout</button>
+        </div>
+    </div>
+</section>
+
+<footer style="margin-top:40px; text-align:center; padding:20px;">Handmade with love · Eco-friendly yarn · Secure payments · India wide shipping</footer>
+
+<script>
+const STORAGE_KEYS = {
+    currentUser: 'knotmuse_current_user',
+    users: 'knotmuse_users',
+    orders: 'knotmuse_orders',
+    resetTokens: 'knotmuse_reset_tokens'
+};
+
+function getJson(key, defaultValue) {
+    try {
+        return JSON.parse(localStorage.getItem(key)) || defaultValue;
+    } catch (error) {
+        return defaultValue;
+    }
+}
+
+function setJson(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+function getCurrentUser() {
+    return getJson(STORAGE_KEYS.currentUser, null);
+}
+
+function setCurrentUser(user) {
+    setJson(STORAGE_KEYS.currentUser, user);
+}
+
+function getUsers() {
+    return getJson(STORAGE_KEYS.users, []);
+}
+
+function setUsers(users) {
+    setJson(STORAGE_KEYS.users, users);
+}
+
+function getOrders() {
+    return getJson(STORAGE_KEYS.orders, []);
+}
+
+function getResetTokens() {
+    return getJson(STORAGE_KEYS.resetTokens, {});
+}
+
+function setResetTokens(tokens) {
+    setJson(STORAGE_KEYS.resetTokens, tokens);
+}
+
+function findUserByLogin(loginId) {
+    const users = getUsers();
+    return users.find(user => user.email === loginId || user.phone === loginId);
+}
+
+function createResetToken(loginId) {
+    const token = 'RP' + Date.now() + Math.floor(Math.random() * 9000 + 1000);
+    const tokens = getResetTokens();
+    tokens[token] = {
+        loginId,
+        expires: Date.now() + 1000 * 60 * 15
+    };
+    setResetTokens(tokens);
+    return token;
+}
+
+function clearResetToken(token) {
+    const tokens = getResetTokens();
+    delete tokens[token];
+    setResetTokens(tokens);
+}
+
+function logoutCurrentUser() {
+    setCurrentUser(null);
+    showMessage('#account-message', 'You have been logged out.', true);
+    toggleAuthUI();
+    renderAccountDetails();
+}
+
+function toggleAuthUI() {
+    const currentUser = getCurrentUser();
+    const authLink = document.querySelector('#auth-link');
+    const authFormBox = document.querySelector('#auth-form-box');
+    const accountDetails = document.querySelector('#account-details');
+    if (!authLink) return;
+
+    if (currentUser) {
+        authLink.textContent = 'Logout';
+        authLink.href = '#';
+        authLink.onclick = function(event) {
+            event.preventDefault();
+            logoutCurrentUser();
+        };
+        if (authFormBox) authFormBox.style.display = 'none';
+        if (accountDetails) accountDetails.style.display = 'block';
+    } else {
+        authLink.textContent = 'Login / Sign Up';
+        authLink.href = 'login.html';
+        authLink.onclick = null;
+        if (authFormBox) authFormBox.style.display = 'block';
+        if (accountDetails) accountDetails.style.display = 'none';
+    }
+}
+
+function showMessage(selector, message, success = false) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+    el.textContent = message;
+    el.style.color = success ? '#2f5c2f' : '#a43f3f';
+}
+
+function getQueryParam(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name);
+}
+
+function switchPanel(loginVisible) {
+    const showLoginButton = document.querySelector('#show-login');
+    const showSignupButton = document.querySelector('#show-signup');
+    const loginPanel = document.querySelector('#login-panel');
+    const signupPanel = document.querySelector('#signup-panel');
+    const resetRequestPanel = document.querySelector('#reset-request-panel');
+    const resetPasswordPanel = document.querySelector('#reset-password-panel');
+    if (!showLoginButton || !showSignupButton || !loginPanel || !signupPanel) return;
+    if (loginVisible) {
+        showLoginButton.classList.add('active');
+        showSignupButton.classList.remove('active');
+        loginPanel.style.display = 'block';
+        signupPanel.style.display = 'none';
+        if (resetRequestPanel) resetRequestPanel.style.display = 'none';
+        if (resetPasswordPanel) resetPasswordPanel.style.display = 'none';
+    } else {
+        showSignupButton.classList.add('active');
+        showLoginButton.classList.remove('active');
+        signupPanel.style.display = 'block';
+        loginPanel.style.display = 'none';
+        if (resetRequestPanel) resetRequestPanel.style.display = 'none';
+        if (resetPasswordPanel) resetPasswordPanel.style.display = 'none';
+    }
+}
+
+function renderAccountDetails() {
+    const user = getCurrentUser();
+    const accountDetails = document.querySelector('#account-details');
+    const accountSummary = document.querySelector('#account-summary');
+    const addressList = document.querySelector('#address-list');
+    const orderHistory = document.querySelector('#order-history');
+    const logoutBtn = document.querySelector('#logout-btn');
+    if (!accountDetails || !accountSummary || !addressList || !orderHistory || !logoutBtn) return;
+
+    if (!user) {
+        accountDetails.style.display = 'none';
+        accountSummary.innerHTML = '<p>Please login or sign up to see your account overview, saved addresses and order history.</p>';
+        addressList.innerHTML = '<p>No saved addresses to display.</p>';
+        orderHistory.innerHTML = '<p>No order history available.</p>';
+        logoutBtn.style.display = 'none';
+        return;
+    }
+
+    accountDetails.style.display = 'block';
+    logoutBtn.style.display = 'block';
+    accountSummary.innerHTML = `
+        <p><strong>${user.name}</strong></p>
+        <p>${user.email || ''} ${user.email && user.phone ? '•' : ''} ${user.phone || ''}</p>
+    `;
+
+    if (!user.addresses || user.addresses.length === 0) {
+        addressList.innerHTML = '<p>No saved addresses yet.</p>';
+    } else {
+        addressList.innerHTML = user.addresses.map((address, index) => `
+            <div class="address-card">
+                <strong>Address ${index + 1}</strong>
+                <p>${address.line}</p>
+                <p>${address.city} - ${address.pincode}</p>
+                <p>${address.phone}</p>
+            </div>
+        `).join('');
+    }
+
+    const orders = getOrders().filter(order => order.email === user.email);
+    if (orders.length === 0) {
+        orderHistory.innerHTML = '<p>You have no orders yet.</p>';
+    } else {
+        orderHistory.innerHTML = orders.map(order => {
+            const items = order.items.map(item => `${item.name} x${item.quantity}`).join(', ');
+            return `
+                <div class="order-item">
+                    <div class="order-info">
+                        <strong>${order.orderId}</strong>
+                        <span>${items}</span>
+                        <span>${order.date}</span>
+                        <span>${order.email}</span>
+                    </div>
+                    <span class="order-status">${order.status}</span>
+                </div>
+            `;
+        }).join('');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    toggleAuthUI();
+    renderAccountDetails();
+
+    const showLoginButton = document.querySelector('#show-login');
+    const showSignupButton = document.querySelector('#show-signup');
+    if (showLoginButton && showSignupButton) {
+        showLoginButton.addEventListener('click', function() {
+            switchPanel(true);
+        });
+        showSignupButton.addEventListener('click', function() {
+            switchPanel(false);
+        });
+    }
+
+    const signupBtn = document.querySelector('#signup-btn');
+    if (signupBtn) {
+        signupBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            const name = document.querySelector('#signup-name').value.trim();
+            const email = document.querySelector('#signup-email').value.trim();
+            const phone = document.querySelector('#signup-phone').value.trim();
+            const password = document.querySelector('#signup-password').value.trim();
+
+            if (!name || !email || !phone || !password) {
+                showMessage('#account-message', 'Please fill in all signup fields.');
+                return;
+            }
+
+            const users = getUsers();
+            const existing = users.find(user => user.email === email || user.phone === phone);
+            if (existing) {
+                showMessage('#account-message', 'An account already exists with this email or phone. Please log in.');
+                return;
+            }
+
+            const newUser = { name, email, phone, password, addresses: [] };
+            users.push(newUser);
+            setUsers(users);
+            setCurrentUser(newUser);
+            showMessage('#account-message', 'Signup successful. You are now logged in.', true);
+            toggleAuthUI();
+            renderAccountDetails();
+        });
+    }
+
+    const loginBtn = document.querySelector('#login-btn');
+    const forgotPasswordLink = document.querySelector('#forgot-password-link');
+    const resetRequestPanel = document.querySelector('#reset-request-panel');
+    const resetPasswordPanel = document.querySelector('#reset-password-panel');
+    const requestResetBtn = document.querySelector('#request-reset-btn');
+    const cancelResetRequest = document.querySelector('#cancel-reset-request');
+    const cancelReset = document.querySelector('#cancel-reset');
+    const resetPasswordBtn = document.querySelector('#reset-password-btn');
+
+    if (loginBtn) {
+        loginBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            const loginId = document.querySelector('#login-email').value.trim();
+            const password = document.querySelector('#login-password').value.trim();
+            const users = getUsers();
+
+            if (!loginId || !password) {
+                showMessage('#account-message', 'Please enter email/phone and password.');
+                return;
+            }
+
+            const user = users.find(user => (user.email === loginId || user.phone === loginId) && user.password === password);
+            if (!user) {
+                showMessage('#account-message', 'Email, phone or password is incorrect.');
+                return;
+            }
+
+            setCurrentUser(user);
+            showMessage('#account-message', 'Login successful. You are now logged in.', true);
+            toggleAuthUI();
+            renderAccountDetails();
+        });
+    }
+
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (resetRequestPanel) resetRequestPanel.style.display = 'block';
+            if (resetPasswordPanel) resetPasswordPanel.style.display = 'none';
+            const loginPanel = document.querySelector('#login-panel');
+            if (loginPanel) loginPanel.style.display = 'none';
+            const signupPanel = document.querySelector('#signup-panel');
+            if (signupPanel) signupPanel.style.display = 'none';
+        });
+    }
+
+    if (cancelResetRequest) {
+        cancelResetRequest.addEventListener('click', function(event) {
+            event.preventDefault();
+            switchPanel(true);
+        });
+    }
+
+    if (cancelReset) {
+        cancelReset.addEventListener('click', function(event) {
+            event.preventDefault();
+            switchPanel(true);
+        });
+    }
+
+    if (requestResetBtn) {
+        requestResetBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            const resetId = document.querySelector('#reset-email').value.trim();
+            if (!resetId) {
+                showMessage('#account-message', 'Please enter your registered email or phone.');
+                return;
+            }
+            const user = findUserByLogin(resetId);
+            if (!user) {
+                showMessage('#account-message', 'No account found for that email or phone.');
+                return;
+            }
+            const token = createResetToken(resetId);
+            const resetLinkBox = document.querySelector('#reset-link-box');
+            const resetLinkUrl = document.querySelector('#reset-link-url');
+            if (resetLinkBox && resetLinkUrl) {
+                const url = `${window.location.origin}${window.location.pathname}?reset=${token}`;
+                resetLinkUrl.href = url;
+                resetLinkUrl.textContent = url;
+                resetLinkBox.style.display = 'block';
+            }
+            showMessage('#account-message', 'Reset link created. Open the link below to continue resetting your password.', true);
+            if (resetPasswordPanel) resetPasswordPanel.style.display = 'block';
+            if (resetRequestPanel) resetRequestPanel.style.display = 'none';
+            if (resetPasswordPanel) resetPasswordPanel.dataset.resetToken = token;
+        });
+    }
+
+    if (resetPasswordBtn) {
+        resetPasswordBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            const token = resetPasswordPanel ? resetPasswordPanel.dataset.resetToken : null;
+            const newPassword = document.querySelector('#new-password').value.trim();
+            const confirmPassword = document.querySelector('#confirm-password').value.trim();
+
+            if (!token) {
+                showMessage('#account-message', 'Please request a password reset first.');
+                return;
+            }
+            if (!newPassword || !confirmPassword) {
+                showMessage('#account-message', 'Please enter and confirm your new password.');
+                return;
+            }
+            if (newPassword !== confirmPassword) {
+                showMessage('#account-message', 'Passwords do not match.');
+                return;
+            }
+
+            const tokens = getResetTokens();
+            const resetData = tokens[token];
+            if (!resetData || resetData.expires < Date.now()) {
+                showMessage('#account-message', 'Reset link is invalid or expired. Please request again.');
+                return;
+            }
+            const user = findUserByLogin(resetData.loginId);
+            if (!user) {
+                showMessage('#account-message', 'No account found for this reset link.');
+                return;
+            }
+            const users = getUsers().map(u => {
+                if (u.email === user.email || u.phone === user.phone) {
+                    return { ...u, password: newPassword };
+                }
+                return u;
+            });
+            setUsers(users);
+            setCurrentUser({ ...user, password: newPassword });
+            clearResetToken(token);
+            showMessage('#account-message', 'Password reset successful. You are now logged in.', true);
+            toggleAuthUI();
+            renderAccountDetails();
+            if (resetPasswordPanel) resetPasswordPanel.style.display = 'none';
+            const resetLinkBox = document.querySelector('#reset-link-box');
+            if (resetLinkBox) resetLinkBox.style.display = 'none';
+        });
+    }
+
+    const resetTokenParam = getQueryParam('reset');
+    if (resetTokenParam) {
+        const loginPanel = document.querySelector('#login-panel');
+        const signupPanel = document.querySelector('#signup-panel');
+        if (loginPanel) loginPanel.style.display = 'none';
+        if (signupPanel) signupPanel.style.display = 'none';
+        if (resetRequestPanel) resetRequestPanel.style.display = 'none';
+        if (resetPasswordPanel) {
+            resetPasswordPanel.style.display = 'block';
+            resetPasswordPanel.dataset.resetToken = resetTokenParam;
+        }
+        const resetLinkBox = document.querySelector('#reset-link-box');
+        if (resetLinkBox) resetLinkBox.style.display = 'block';
+        const resetLinkUrl = document.querySelector('#reset-link-url');
+        if (resetLinkUrl) {
+            const url = `${window.location.origin}${window.location.pathname}?reset=${resetTokenParam}`;
+            resetLinkUrl.href = url;
+            resetLinkUrl.textContent = url;
+        }
+        showMessage('#account-message', 'Enter a new password and submit to complete reset.', true);
+    }
+});
+</script>
+
+</body>
+</html>

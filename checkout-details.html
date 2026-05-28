@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNOT MUSEE Payment Details</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero hero-center">
+        <div class="hero-content">
+            <p class="hero-subtitle">KNOT MUSEE</p>
+            <h1>Secure Checkout</h1>
+            <p class="hero-text">Complete your order in two easy steps: address and payment.</p>
+        </div>
+    </header>
+
+    <section class="checkout-steps">
+        <div class="step active">
+            <span>1</span>
+            <p>Shipping Address</p>
+        </div>
+        <div class="step">
+            <span>2</span>
+            <p>Payment & Confirm</p>
+        </div>
+    </section>
+
+    <section class="checkout-content">
+        <div class="checkout-main">
+            <div id="step-1" class="checkout-step active">
+                <h2>Shipping Address</h2>
+                <p class="help-text">Enter your delivery address and continue to payment.</p>
+                <div id="checkout-login-note" class="checkout-login-note"></div>
+                <div id="saved-addresses-container" class="saved-addresses-container"></div>
+                <form id="address-form">
+                    <div class="form-group">
+                        <label for="checkout-name">Full Name</label>
+                        <input id="checkout-name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-email">Email</label>
+                        <input id="checkout-email" type="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-phone">Phone Number</label>
+                        <input id="checkout-phone" type="tel" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-address">Address</label>
+                        <textarea id="checkout-address" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-city">City</label>
+                        <input id="checkout-city" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-pincode">PIN Code</label>
+                        <input id="checkout-pincode" type="text" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn-primary w-full">Continue to Payment</button>
+                </form>
+                <div id="checkout-page-message" class="checkout-message"></div>
+            </div>
+
+            <div id="step-2" class="checkout-step">
+                <h2>Payment Method</h2>
+                <p class="help-text">Confirm your address and complete payment securely.</p>
+                <div class="payment-methods">
+                    <label class="payment-method active">
+                        <input type="radio" name="payment-method" value="razorpay" checked hidden>
+                        <strong>Razorpay</strong>
+                        <span>Fast and secure payment gateway</span>
+                    </label>
+                </div>
+                <div class="payment-details">
+                    <div class="payment-card">
+                        <h3>Delivery Address</h3>
+                        <div id="selected-address" class="address-summary"></div>
+                    </div>
+                    <div class="payment-card">
+                        <h3>Order Summary</h3>
+                        <div id="payment-order-summary" class="order-summary"></div>
+                    </div>
+                </div>
+                <button id="payment-submit" class="btn-primary w-full">Pay with Razorpay</button>
+                <button id="edit-address" class="btn-secondary w-full">Edit Address</button>
+            </div>
+        </div>
+
+        <aside class="checkout-summary-box">
+            <div class="cart-box">
+                <h3>Order Summary</h3>
+                <div id="checkout-cart-items" class="cart-items"></div>
+                <div class="cart-summary">
+                    <p>Total: <strong id="checkout-cart-total">₹0</strong></p>
+                </div>
+                <button id="checkout-clear-cart" class="btn-secondary w-full">Clear Cart</button>
+            </div>
+        </aside>
+    </section>
+
+    <footer>
+        Handmade with love · Eco-friendly yarn · Secure payments · India wide shipping
+    </footer>
+
+    <!-- EmailJS Library for sending emails -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Initialize EmailJS - Replace with your Public Key
+            emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
+        })();
+    </script>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        const STORAGE_KEYS = {
+            currentUser: 'knotmuse_current_user',
+            users: 'knotmuse_users',
+            cart: 'knotmuse_cart',
+            orders: 'knotmuse_orders'
+        };
+
+        function getJson(key, defaultValue) {
+            try {
+                return JSON.parse(localStorage.getItem(key)) || defaultValue;
+            } catch (error) {
+                return defaultValue;
+            }
+        }
+
+        function setJson(key, value) {
+            localStorage.setItem(key, JSON.stringify(value));
+        }
+
+        function getCart() {
+            return getJson(STORAGE_KEYS.cart, []);
+        }
+
+        function setCart(cart) {
+            setJson(STORAGE_KEYS.cart, cart);
+        }
+
+        function getCurrentUser() {
+            return getJson(STORAGE_KEYS.currentUser, null);
+        }
+
+        function getOrders() {
+            return getJson(STORAGE_KEYS.orders, []);
+        }
+
+        function setOrders(orders) {
+            setJson(STORAGE_KEYS.orders, orders);
+        }
+
+        function getBuyNowItem() {
+            const raw = sessionStorage.getItem('knotmuse_buy_now_item');
+            return raw ? JSON.parse(raw) : null;
+        }
+
+        function clearBuyNowItem() {
+            sessionStorage.removeItem('knotmuse_buy_now_item');
+        }
+
+        function getOrderItems() {
+            const buyNowItem = getBuyNowItem();
+            if (buyNowItem) {
+                return [{ ...buyNowItem, quantity: buyNowItem.quantity || 1 }];
+            }
+            return getCart();
+        }
+
+        function updateBuyNowQuantity(name, delta) {
+            const buyNowItem = getBuyNowItem();
+            if (!buyNowItem || buyNowItem.name !== name) return false;
+            buyNowItem.quantity = Math.max(1, (buyNowItem.quantity || 1) + delta);
+            sessionStorage.setItem('knotmuse_buy_now_item', JSON.stringify(buyNowItem));
+            return true;
+        }
+
+        function removeBuyNowItem() {
+            clearBuyNowItem();
+        }
+
+        function saveAddressToCurrentUser(address) {
+            const user = getCurrentUser();
+            if (!user) return;
+            user.addresses = user.addresses || [];
+            user.addresses.push(address);
+            setJson(STORAGE_KEYS.currentUser, user);
+            const users = getJson(STORAGE_KEYS.users, []);
+            const updatedUsers = users.map(u => u.email === user.email ? user : u);
+            setJson(STORAGE_KEYS.users, updatedUsers);
+        }
+
+        function showCheckoutMessage(message, success = false) {
+            const el = document.querySelector('#checkout-page-message');
+            if (!el) return;
+            el.textContent = message;
+            el.style.color = success ? '#2f5c2f' : '#a43f3f';
+        }
+
+        function getImageByName(name) {
+            const PRODUCT_IMAGE_MAP = {
+                'Star Keychain': 'images/star keychain.jpeg',
+                'Chic with Sunflower': 'images/Chic with sunflower.jpeg',
+                'Roses Bouquet/Coaster': 'images/roses bouquet.jpeg',
+                'Tulip Bouquet keychain': 'images/tulip.jpg.jpeg',
+                'Bunny Plush': 'images/bunny.jpg.jpeg',
+                'Rose Shoulder Bag': 'images/rosebag.jpg.jpeg',
+                'Dog Keychain': 'images/dog.jpg.jpeg',
+                'Hanging Spiderman': 'images/hanging spiderman.jpeg',
+                'Butterfly Charms': 'images/butterfly charms.jpeg',
+                'Pocket Penguin': 'images/pocket penguin.jpeg',
+                'Sunflower Duo': 'images/sunflower duo.jpeg'
+            };
+            return PRODUCT_IMAGE_MAP[name] || '';
+        }
+
+        function renderCheckoutCart() {
+            const cart = getOrderItems();
+            const itemsEl = document.querySelector('#checkout-cart-items');
+            const totalEl = document.querySelector('#checkout-cart-total');
+            if (!itemsEl || !totalEl) return;
+
+            if (cart.length === 0) {
+                itemsEl.innerHTML = '<p class="empty-message">No items selected for checkout.</p>';
+                totalEl.textContent = '₹0';
+                return;
+            }
+
+            itemsEl.innerHTML = cart.map(item => {
+                const imageSrc = item.image || getImageByName(item.name);
+                return `
+                <div class="cart-item">
+                    ${imageSrc ? `<img class="cart-item-image" src="${imageSrc}" alt="${item.name}">` : ''}
+                    <div class="cart-item-details">
+                        <strong>${item.name}</strong>
+                        <div class="cart-quantity">
+                            <button class="cart-qty-btn cart-qty-decrease" data-name="${item.name}">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="cart-qty-btn cart-qty-increase" data-name="${item.name}">+</button>
+                        </div>
+                        <div>₹${item.price} x ${item.quantity}</div>
+                    </div>
+                    <button class="btn-secondary remove-cart-item" data-name="${item.name}">Remove</button>
+                </div>
+            `;
+            }).join('');
+
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            totalEl.textContent = '₹' + total;
+        }
+
+        function fillCheckoutDetails() {
+            const user = getCurrentUser();
+            const loginNote = document.querySelector('#checkout-login-note');
+            if (!user) {
+                if (loginNote) {
+                    loginNote.innerHTML = '<p class="checkout-message">Login to save addresses and choose a saved shipping address. <a href="login.html">Login / Sign Up</a></p>';
+                }
+                return;
+            }
+            if (loginNote) {
+                loginNote.innerHTML = '';
+            }
+            document.querySelector('#checkout-name').value = user.name || '';
+            document.querySelector('#checkout-email').value = user.email || '';
+            document.querySelector('#checkout-phone').value = user.phone || '';
+        }
+
+        function setShippingFields(address) {
+            if (!address) return;
+            document.querySelector('#checkout-address').value = address.line || '';
+            document.querySelector('#checkout-city').value = address.city || '';
+            document.querySelector('#checkout-pincode').value = address.zip || address.pincode || '';
+            document.querySelector('#checkout-phone').value = address.phone || document.querySelector('#checkout-phone').value;
+        }
+
+        function renderSavedAddresses() {
+            const user = getCurrentUser();
+            const container = document.querySelector('#saved-addresses-container');
+            if (!container) return;
+            if (!user || !user.addresses || user.addresses.length === 0) {
+                container.innerHTML = '<div class="checkout-message">No saved addresses found. Enter a new address below or <a href="login.html">login</a> to save addresses.</div>';
+                return;
+            }
+
+            const addressRadios = user.addresses.map((address, index) => `
+                <label class="saved-address-option">
+                    <input type="radio" name="saved-address" value="${index}" ${index === 0 ? 'checked' : ''}>
+                    <span><strong>${address.label || 'Address ' + (index + 1)}</strong><br>${address.line}, ${address.city}, ${address.state} - ${address.zip || address.pincode}<br>📞 ${address.phone}</span>
+                </label>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="saved-addresses-title">Choose a saved address</div>
+                <div class="saved-addresses-list">${addressRadios}</div>
+            `;
+
+            const firstAddress = user.addresses[0];
+            if (firstAddress) {
+                setShippingFields(firstAddress);
+            }
+
+            container.querySelectorAll('input[name="saved-address"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const selectedAddress = user.addresses[Number(this.value)];
+                    setShippingFields(selectedAddress);
+                });
+            });
+        }
+
+        function showStep(step) {
+            document.querySelector('#step-1').classList.toggle('active', step === 1);
+            document.querySelector('#step-2').classList.toggle('active', step === 2);
+            document.querySelectorAll('.checkout-steps .step').forEach((el, index) => {
+                el.classList.toggle('active', index === step - 1);
+            });
+            if (step === 2) {
+                renderPaymentSummary();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderPaymentSummary() {
+            const addressEl = document.querySelector('#selected-address');
+            const orderEl = document.querySelector('#payment-order-summary');
+            const name = document.querySelector('#checkout-name').value.trim();
+            const email = document.querySelector('#checkout-email').value.trim();
+            const phone = document.querySelector('#checkout-phone').value.trim();
+            const address = document.querySelector('#checkout-address').value.trim();
+            const city = document.querySelector('#checkout-city').value.trim();
+            const pincode = document.querySelector('#checkout-pincode').value.trim();
+            const orderItems = getOrderItems();
+
+            if (addressEl) {
+                addressEl.innerHTML = `
+                    <p><strong>${name}</strong></p>
+                    <p>${address}</p>
+                    <p>${city} - ${pincode}</p>
+                    <p>${phone} • ${email}</p>
+                `;
+            }
+
+            if (orderEl) {
+                if (orderItems.length === 0) {
+                    orderEl.innerHTML = '<p>No products selected for checkout.</p>';
+                    return;
+                }
+                orderEl.innerHTML = orderItems.map(item => {
+                    const imageSrc = item.image || getImageByName(item.name);
+                    return `
+                    <div class="order-item">
+                        ${imageSrc ? `<img class="order-summary-image" src="${imageSrc}" alt="${item.name}">` : ''}
+                        <div class="order-summary-text">
+                            <span>${item.name} x${item.quantity}</span>
+                            <strong>₹${item.price * item.quantity}</strong>
+                        </div>
+                    </div>
+                `;
+                }).join('');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCheckoutCart();
+            fillCheckoutDetails();
+            renderSavedAddresses();
+            showStep(1);
+        });
+
+        document.addEventListener('click', function(e) {
+            const decreaseBtn = e.target.closest('.cart-qty-decrease');
+            const increaseBtn = e.target.closest('.cart-qty-increase');
+            const removeBtn = e.target.closest('.remove-cart-item');
+            const clearBtn = e.target.closest('#checkout-clear-cart');
+            const editAddressBtn = e.target.closest('#edit-address');
+
+            if (decreaseBtn) {
+                const name = decreaseBtn.dataset.name;
+                const isBuyNow = !!getBuyNowItem();
+                if (isBuyNow && updateBuyNowQuantity(name, -1)) {
+                    renderCheckoutCart();
+                    if (document.querySelector('#step-2').classList.contains('active')) {
+                        renderPaymentSummary();
+                    }
+                    return;
+                }
+                let cart = getCart();
+                const item = cart.find(entry => entry.name === name);
+                if (item) {
+                    if (item.quantity > 1) {
+                        item.quantity -= 1;
+                    } else {
+                        cart = cart.filter(entry => entry.name !== name);
+                    }
+                    setCart(cart);
+                    renderCheckoutCart();
+                    if (document.querySelector('#step-2').classList.contains('active')) {
+                        renderPaymentSummary();
+                    }
+                }
+                return;
+            }
+
+            if (increaseBtn) {
+                const name = increaseBtn.dataset.name;
+                const isBuyNow = !!getBuyNowItem();
+                if (isBuyNow && updateBuyNowQuantity(name, 1)) {
+                    renderCheckoutCart();
+                    if (document.querySelector('#step-2').classList.contains('active')) {
+                        renderPaymentSummary();
+                    }
+                    return;
+                }
+                const cart = getCart();
+                const item = cart.find(entry => entry.name === name);
+                if (item) {
+                    item.quantity += 1;
+                    setCart(cart);
+                    renderCheckoutCart();
+                    if (document.querySelector('#step-2').classList.contains('active')) {
+                        renderPaymentSummary();
+                    }
+                }
+                return;
+            }
+
+            if (removeBtn) {
+                const name = removeBtn.dataset.name;
+                const isBuyNow = !!getBuyNowItem();
+                if (isBuyNow) {
+                    removeBuyNowItem();
+                    renderCheckoutCart();
+                    if (document.querySelector('#step-2').classList.contains('active')) {
+                        renderPaymentSummary();
+                    }
+                    return;
+                }
+                const cart = getCart().filter(item => item.name !== name);
+                setCart(cart);
+                renderCheckoutCart();
+                if (document.querySelector('#step-2').classList.contains('active')) {
+                    renderPaymentSummary();
+                }
+                return;
+            }
+
+            if (clearBtn) {
+                const buyNowItem = getBuyNowItem();
+                if (buyNowItem) {
+                    clearBuyNowItem();
+                }
+                setCart([]);
+                renderCheckoutCart();
+                if (document.querySelector('#step-2').classList.contains('active')) {
+                    renderPaymentSummary();
+                }
+                return;
+            }
+
+            if (editAddressBtn) {
+                showStep(1);
+                return;
+            }
+        });
+
+        document.querySelector('#address-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const orderItems = getOrderItems();
+            if (orderItems.length === 0) {
+                showCheckoutMessage('Please select a product or add items to the cart first.');
+                return;
+            }
+
+            const name = document.querySelector('#checkout-name').value.trim();
+            const email = document.querySelector('#checkout-email').value.trim();
+            const phone = document.querySelector('#checkout-phone').value.trim();
+            const address = document.querySelector('#checkout-address').value.trim();
+            const city = document.querySelector('#checkout-city').value.trim();
+            const pincode = document.querySelector('#checkout-pincode').value.trim();
+
+            if (!name || !email || !phone || !address || !city || !pincode) {
+                showCheckoutMessage('Please fill in all shipping details.');
+                return;
+            }
+
+            showCheckoutMessage('Shipping details saved. Proceed to payment.', true);
+            showStep(2);
+        });
+
+        document.querySelector('#payment-submit').addEventListener('click', function(event) {
+            const orderItems = getOrderItems();
+            if (orderItems.length === 0) {
+                showCheckoutMessage('No product selected for checkout.');
+                return;
+            }
+
+            const name = document.querySelector('#checkout-name').value.trim();
+            const email = document.querySelector('#checkout-email').value.trim();
+            const phone = document.querySelector('#checkout-phone').value.trim();
+            const address = document.querySelector('#checkout-address').value.trim();
+            const city = document.querySelector('#checkout-city').value.trim();
+            const pincode = document.querySelector('#checkout-pincode').value.trim();
+
+            if (!name || !email || !phone || !address || !city || !pincode) {
+                showCheckoutMessage('Please complete the shipping address first.');
+                showStep(1);
+                return;
+            }
+
+            const total = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const description = orderItems.map(item => `${item.name} x${item.quantity}`).join(', ');
+
+            const options = {
+                key: 'rzp_live_SraKQOvPwn918J',
+                amount: total * 100,
+                currency: 'INR',
+                name: 'KNOT MUSEE',
+                description: description,
+                prefill: {
+                    name,
+                    email,
+                    contact: phone
+                },
+                handler: function(response) {
+                    const orders = getOrders();
+                    const orderId = 'KM' + Date.now();
+                    const items = getOrderItems();
+                    const orderData = {
+                        orderId,
+                        name,
+                        email,
+                        phone,
+                        address,
+                        city,
+                        pincode,
+                        items,
+                        total,
+                        date: new Date().toLocaleString(),
+                        status: 'Confirmed',
+                        paymentId: response.razorpay_payment_id
+                    };
+                    orders.push(orderData);
+                    setOrders(orders);
+                    if (getBuyNowItem()) {
+                        clearBuyNowItem();
+                    } else {
+                        setCart([]);
+                    }
+                    renderCheckoutCart();
+
+                    // Send email to owner with order details
+                    const itemsList = items.map(item => `${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}`).join('\n');
+                    
+                    const ownerEmailParams = {
+                        to_email: "OWNER_EMAIL@example.com", // Replace with owner's email
+                        order_id: orderId,
+                        customer_name: name,
+                        customer_email: email,
+                        customer_phone: phone,
+                        delivery_address: address,
+                        city: city,
+                        pincode: pincode,
+                        items_list: itemsList,
+                        total_amount: total,
+                        payment_id: response.razorpay_payment_id,
+                        order_date: new Date().toLocaleString()
+                    };
+
+                    // Send email to customer with confirmation
+                    const customerEmailParams = {
+                        to_email: email,
+                        order_id: orderId,
+                        customer_name: name,
+                        delivery_address: address,
+                        city: city,
+                        pincode: pincode,
+                        items_list: itemsList,
+                        total_amount: total
+                    };
+
+                    // Send emails
+                    emailjs.send("YOUR_SERVICE_ID", "YOUR_OWNER_TEMPLATE_ID", ownerEmailParams)
+                        .then(function(response) {
+                            console.log('Owner email sent successfully');
+                        })
+                        .catch(function(error) {
+                            console.log('Owner email failed:', error);
+                        });
+
+                    emailjs.send("YOUR_SERVICE_ID", "YOUR_CUSTOMER_TEMPLATE_ID", customerEmailParams)
+                        .then(function(response) {
+                            console.log('Customer confirmation email sent');
+                        })
+                        .catch(function(error) {
+                            console.log('Customer email failed:', error);
+                        });
+
+                    showCheckoutMessage(`Payment successful! Order ID: ${orderId}. Confirmation sent to ${email}`, true);
+                },
+                theme: {
+                    color: '#7c3aed'
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        });
+    </script>
+</body>
+</html>
